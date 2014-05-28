@@ -1,0 +1,3469 @@
+<html lang="en"><head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Tutorial for Symbolics and Plotting -- PREP Tutorials v5.11.rc1 -- Sage</title>
+        
+	
+        
+<link type="text/css" rel="stylesheet" href="_static/default.css" media="screen">
+
+        <link type="text/css" rel="stylesheet" href="/css/main.css">
+        
+        
+        <script src="http://www.google-analytics.com/ga.js" async="" type="text/javascript"></script><script type="text/javascript" src="/javascript/jquery/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="/javascript/dynamic/localization.js"></script>
+        <script type="text/javascript" src="/javascript/json/json2.min.js"></script>
+        
+<!-- jQuery UI - interacts, widgets, drag-drop, etc. -->
+<link rel="stylesheet" href="/javascript/jqueryui/css/sage/jquery-ui-1.8.11.custom.css">
+<script type="text/javascript" src="/javascript/jqueryui/js/jquery-ui-1.8.11.custom.min.js"></script>
+
+<!-- jQuery plugins - color pickers, shift-click, AJAX forms, IE fixes, notifications -->
+<link rel="stylesheet" href="/javascript/jquery/plugins/farbtastic/farbtastic.css" type="text/css">
+<script type="text/javascript" src="/javascript/jquery/plugins/farbtastic/farbtastic.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery/plugins/extendedclick/jquery.event.extendedclick.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery/plugins/form/jquery.form.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery/plugins/jquery.bgiframe.min.js"></script>
+<link rel="stylesheet" href="/javascript/jquery/plugins/jpicker/css/jPicker-1.1.6.min.css" type="text/css">
+<script type="text/javascript" src="/javascript/jquery/plugins/jpicker/jpicker-1.1.6.min.js"></script>
+<link rel="stylesheet" media="screen" type="text/css" href="/javascript/jquery/plugins/colorpicker/css/colorpicker.css">
+<script type="text/javascript" src="/javascript/jquery/plugins/colorpicker/js/colorpicker.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery/plugins/achtung/ui.achtung-mod.min.js"></script>
+
+
+<script type="text/javascript" src="/javascript/sage/js/notebook_lib.js"></script>
+<script type="text/javascript" src="/javascript/dynamic/notebook_dynamic.js"></script>
+
+
+
+    <!-- Work around OSX Lion STIX fonts bug: see http://groups.google.com/group/mathjax-users/browse_thread/thread/42ceab8dbf286740,
+         https://github.com/mathjax/MathJax/issues/178, and https://github.com/mathjax/MathJax/issues/152 -->
+    <script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Register.LoadHook("[MathJax]/jax/output/HTML-CSS/fonts/STIX/fontdata.js", function () {
+      var HTMLCSS = MathJax.OutputJax["HTML-CSS"];
+    
+      MathJax.Hub.Browser.Select({
+        Safari: function (browser) {
+          browser.STIXfontBug = browser.versionAtLeast("5.1") && browser.isMac;
+        },
+        Chrome: function (browser) {
+          var match = navigator.appVersion.match(/AppleWebKit\/(\d+)/);
+          if (match && parseInt(match[1]) > 534) {browser.STIXfontBug = true}
+        }
+      });
+      if (MathJax.Hub.Browser.STIXfontBug) {
+        HTMLCSS.FONTDATA.FONTS["STIXGeneral"].family = "STIXGeneral-Regular";
+        HTMLCSS.FONTDATA.FONTS["STIXGeneral-italic"].family = "STIXGeneral-Italic";
+        delete HTMLCSS.FONTDATA.FONTS["STIXGeneral-italic"].style;
+      }
+    });
+    </script>
+
+<script type="text/javascript" src="/javascript/mathjax/MathJax.js?config=TeX-AMS_HTML-full,../../dynamic/mathjax_sage.js"></script>
+
+
+<!-- Sage3d - accelerated 3D graphics -->
+<script type="text/javascript" src="/javascript/sage3d/sage3d.js"></script>
+
+<!-- Jmol - embedded 3D graphics -->
+<script type="text/javascript" src="/java/jmol/appletweb/Jmol.js"></script>
+<!-- This must stay in head -->
+<script>jmolInitialize("/java/jmol");jmolSetCallback("menuFile","/java/jmol/appletweb/SageMenu.mnu");</script>
+
+
+
+<script type="text/javascript">user_name= "name_of_user";</script>
+
+<script type="text/javascript">
+    worksheet_filename = "_sage_/93596";
+    worksheet_name = 'Tutorial for Symbolics and Plotting -- PREP Tutorials v5.11.rc1';
+    
+        server_ping_while_alive();
+    
+</script>
+
+
+
+        
+        
+        
+        <script type="text/javascript" src="/javascript/sage/js/master.js"></script>
+        
+        <script type="text/javascript">
+
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24214040-1']);
+          _gaq.push(['_setDomainName', 'sagenb.org']);
+          _gaq.push(['_trackPageview']);
+          _gaq.push(['_trackPageLoadTime']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+
+    <style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-family: serif; font-size: 85%; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuTitle {background-color: #CCCCCC; margin: -1px -1px 1px -1px; text-align: center; font-style: italic; font-size: 80%; color: #444444; padding: 2px 0; overflow: hidden}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+</style><style type="text/css">#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+.MathJax .mo, .MathJax .mi {color: inherit ! important}
+</style><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block; width: 100%}
+.MathJax .merror {color: black; border: 1px solid; padding: 1px 3px; font-family: serif; font-size: 80%; vertical-align: ; text-align: left}
+.MathJax_Preview {color: #888888}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-family: serif; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; border: 0; padding: 0; margin: 0}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0 !important; padding: 0 !important; margin: 0 !important; vertical-align: 0 !important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+.MathJax nobr {white-space: nowrap}
+.MathJax img {display: inline ! important}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax .MathJax_HitBox {cursor: text}
+#MathJax_Tooltip * {filter: none; background: transparent}
+@font-face {font-family: MathJax_Main; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf')}
+@font-face {font-family: MathJax_Main; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf'); font-weight: bold}
+@font-face {font-family: MathJax_Main; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf'); font-style: italic}
+@font-face {font-family: MathJax_Math; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf'); font-style: italic}
+@font-face {font-family: MathJax_Caligraphic; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf')}
+@font-face {font-family: MathJax_Size1; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf')}
+@font-face {font-family: MathJax_Size2; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf')}
+@font-face {font-family: MathJax_Size3; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf')}
+@font-face {font-family: MathJax_Size4; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf')}
+#MathJax_getScales {font-family: MathJax_Main,MathJax_Size1,MathJax_AMS}
+.MathJax .math span {font-family: MathJax_Main,MathJax_Size1,MathJax_AMS}
+</style></head>
+    <body id="user-worksheet-page" class="active-worksheet"><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px none; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div style="display: none;" id="MathJax_Message"></div>
+        
+        <div id="header">
+            
+            <div id="top-bar">
+                <div id="banner">
+                    <a class="banner" href="/">
+                        <img src="/images/sagenb.png" alt="Sage" align="top"><span>The Sage Notebook</span>
+                    </a>
+                    <span class="ping" id="ping">Searching for Sage server...</span>
+                    <div class="version">
+                        Version 5.11
+                    </div>
+                </div>
+                
+<div id="main-controls" class="controls">
+    <ul>
+        <li class="username">name_of_user</li>
+        
+        <li><a id="toggle-link" title="Toggle the top bar" onclick="$('#worksheet-bar').toggle()">Toggle</a></li>
+        <li><a title="Back to your personal worksheet list" href="/home/name_of_user">Home</a></li>
+        
+        <li><a title="Browse the published worksheets" href="/pub">Published</a></li>
+        <li><a title="View a log of recent computations" href="#" onclick="history_window()">Log</a></li>
+        
+        <li><a title="Change account settings including password" href="/settings">Settings</a></li>
+        <li><a title="Documentation" href="#" onclick="help()">Help</a></li>
+        <li><a title="Report a problem or submit a bug to improve Sage" href="#" onclick="bugreport()">Report a Problem</a></li>
+        <li><a title="Log out of the Sage notebook" href="/logout">Sign out</a></li>
+        
+    </ul>
+</div>
+
+            </div>
+            
+        </div>
+        <div id="main">
+            
+
+
+<div id="worksheet-bar">
+    <div class="worksheet_title">
+        <a id="worksheet_title" class="worksheet_title" onclick="rename_worksheet(); return false;" title="Click to rename this worksheet">
+            Tutorial for Symbolics and Plotting -- PREP Tutorials v5.11.rc1
+        </a>
+        <div><span class="lastedit">last edited 
+<span class="lastedit">Apr 13, 2014 7:31:06 PM by remy.viard.0@gmail.com</span></span></div>
+        
+    </div>
+    <div id="save-discard-buttons">
+        
+    </div>
+
+    <div id="worksheet-menu">
+    
+        <select class="worksheet" onchange="go_option(this);" id="file-menu">
+            <option title="Select a file related function" value="" selected="">File...</option>
+            <option title="Load a new worksheet stored in a file" value="upload_worksheet_button();">Load worksheet from a file...</option>
+            <option title="Create a new worksheet" value="new_worksheet();">New worksheet</option>
+            <option title="Save this worksheet to an sws file" value="download_worksheet();">Save worksheet to a file...</option>
+            <option title="Print this worksheet" value="print_worksheet();">Print</option>
+            <option title="Rename this worksheet" value="rename_worksheet();">Rename worksheet</option>
+            <option title="Copy this worksheet" value="copy_worksheet();">Copy worksheet</option>
+            <option title="Move this worksheet to the trash" value="delete_worksheet('_sage_/93596');">Delete worksheet</option>
+        </select>
+
+        <select class="worksheet" onchange="go_option(this);" id="action-menu">
+            <option title="Select a worksheet function" value="" selected="">Action...</option>
+            <option title="Interrupt currently running calculations, if possible" value="interrupt();">Interrupt</option>
+            <option title="Restart the worksheet process" value="restart_sage();">Restart worksheet</option>
+            <option title="Quit the worksheet process" value="save_worksheet_and_close();">Save and quit worksheet</option> 
+            <option value="">---------------------------</option>
+            <option title="Evaluate all input cells in the worksheet" value="evaluate_all();">Evaluate All</option>
+            <option title="Hide all output" value="hide_all();">Hide All Output</option>
+            <option title="Show all output" value="show_all();">Show All Output</option>
+            <option title="Delete all output" value="delete_all_output();">Delete All Output</option>
+            <option value="">---------------------------</option>
+            <option title="Switch to single-cell mode" value="slide_mode();">One Cell Mode</option>
+            <option title="Switch to multi-cell mode" value="cell_mode();">Multi Cell Mode</option> 
+        </select>
+        <select class="worksheet" onchange="handle_data_menu(this);" id="data-menu">
+            <option title="Select an attached file" value="" selected="">Data...</option>
+            <option title="Upload or create a data file in a wide range of formats" value="__upload_data_file__">Upload or create file...</option>
+            <option value="">--------------------</option>
+            
+        </select>
+
+        
+     
+    </div>
+    <div id="share-publish-buttons">
+        
+    </div>
+</div>
+<div class="hidden" id="slide_controls">
+    <div class="slideshow_control">
+        <a class="slide_arrow" onclick="slide_next()">&gt;</a>
+        <a class="slide_arrow" onclick="slide_last()">&gt;&gt;</a> <span class="vbar"></span>
+        <a class="cell_mode" onclick="cell_mode()">Exit</a>
+    </div>
+    <div class="slideshow_progress" id="slideshow_progress" onclick="slide_next()">
+        <div class="slideshow_progress_bar" id="slideshow_progress_bar">&nbsp;</div>
+        <div class="slideshow_progress_text" id="slideshow_progress_text">&nbsp;</div>
+    </div>
+    <div class="slideshow_control">
+        <a class="slide_arrow" onclick="slide_first()">&lt;&lt;</a>
+        <a class="slide_arrow" onclick="slide_prev()">&lt;</a>
+    </div>
+</div>
+
+
+<div class="worksheet" id="worksheet">
+    
+
+
+
+    
+
+
+<div style="width: 1083px;" class="cell_input_active" id="cell_resizer">&nbsp;</div>
+<div class="worksheet_cell_list" id="worksheet_cell_list">
+  
+    
+<span id="cell_outer_32">
+    
+    <div class="text_cell" id="cell_text_32">
+      <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index" accesskey="I">index</a></li>
+        <li class="right">
+          <a href="py-modindex.html" title="Python Module Index">modules</a> |</li>
+        <li class="right">
+          <a href="Calculus.html" title="Tutorial for Calculus" accesskey="N">next</a> |</li>
+        <li class="right">
+          <a href="Intro-Tutorial.html" title="Introductory Sage Tutorial" accesskey="P">previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">PREP Tutorials v5.11.rc1</a> »</li>
+ 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div style="position: relative;" class="bodywrapper"><div style="background-color: rgb(234, 234, 248); border-width: 0px 5px 0px 0px; border-right: 5px ridge rgb(234, 234, 248); cursor: pointer; position: absolute; left: -5px; top: 0px; width: 5px; height: 9429px;" class="sphinxsidebartoggle"></div>
+          <div class="body">
+            
+  <div class="section" id="tutorial-for-symbolics-and-plotting">
+<h1>Tutorial for Symbolics and Plotting<a class="headerlink" href="#tutorial-for-symbolics-and-plotting" title="Permalink to this headline">¶</a></h1>
+<p>This <a class="reference external" href="http://www.sagemath.org">Sage</a> document is one of the tutorials
+developed for the MAA PREP Workshop “Sage: Using Open-Source
+Mathematics Software with Undergraduates” (funding provided by NSF DUE
+0817071).  It is licensed under the Creative Commons
+Attribution-ShareAlike 3.0 license (<a class="reference external" href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA</a>).</p>
+<p>This tutorial has the following sections:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#symbolic"><em>Symbolic Expressions</em></a></li>
+<li><a class="reference internal" href="#dplotting"><em>Basic 2D Plotting</em></a></li>
+<li><a class="reference internal" href="#id1"><em>Basic 3D Plotting</em></a></li>
+</ul>
+<p>It assumes that one is familiar with the absolute basics of functions
+and evaluation in Sage.  We provide a (very) brief refresher.</p>
+<ol class="arabic simple">
+<li>Make sure the syntax below for defining a function and getting a
+value makes sense.</li>
+<li>Then evaluate the cell by clicking the “evaluate” link, or by
+pressing Shift-Enter (hold down Shift while pressing the Enter key).</li>
+</ol>
+<div class="highlight-python">
+    </div>
+
+
+
+
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_0" class="cell_visible">
+    <div id="cell_0" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before0">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before0").bind("plainclick",function (e) {
+                    insert_new_cell_before(0);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 44px;" class="cell_input" rows="2" cols="80" id="cell_input_0">f(x)=x^3+1
+f(2)</textarea>
+                <input class="eval_button" id="eval_button0" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_0" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_0" onclick="cycle_cell_output_type(0);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_0">
+                            <div class="cell_output_wrap" id="cell_output_0">
+                                
+                                    <pre class="shrunk">9</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_0">
+                                    <pre class="shrunk">9</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_0">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_33">
+    
+    <div class="text_cell" id="cell_text_33">
+      </div>
+<div class="section" id="symbolic-expressions">
+<span id="symbolic"></span><h2>Symbolic Expressions<a class="headerlink" href="#symbolic-expressions" title="Permalink to this headline">¶</a></h2>
+<p>In the first tutorial, we defined <em>functions</em> using notation similar to
+that one would use in (say) a calculus course.</p>
+<p>There is a useful variant on this - defining <em>expressions</em> involving
+variables.  This will give us the opportunity to point out several
+important, and sometimes subtle, things.</p>
+<p>In the cell below, we define an expression <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-4" class="math"><span style="display: inline-block; position: relative; width: 1.212em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.335em, 1000em, 2.332em, -0.406em);"><span id="MathJax-Span-5" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-6" class="mi">F</span><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-7" class="mi">V</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.91em; vertical-align: -0.03em;"></span></span></nobr></span><script id="MathJax-Element-1" type="math/tex">FV</script> which is the
+future value of an investment of $100, compounded continuously.  We
+then substitute in values for <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-8" class="math"><span style="display: inline-block; position: relative; width: 0.436em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.32em, -0.415em);"><span id="MathJax-Span-9" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-10" class="mi">r</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.584em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-2" type="math/tex">r</script> and <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-11" class="math"><span style="display: inline-block; position: relative; width: 0.339em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.392em, 1000em, 2.32em, -0.417em);"><span id="MathJax-Span-12" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-13" class="mi">t</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.821em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-3" type="math/tex">t</script> which calculate
+the future value for <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-18" class="math"><span style="display: inline-block; position: relative; width: 2.132em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.352em, 1000em, 2.331em, -0.417em);"><span id="MathJax-Span-19" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-20" class="mi">t</span><span style="font-family: MathJax_Main; padding-left: 0.278em;" id="MathJax-Span-21" class="mo">=</span><span style="font-family: MathJax_Main; padding-left: 0.278em;" id="MathJax-Span-22" class="mn">5</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.887em; vertical-align: -0.028em;"></span></span></nobr></span><script id="MathJax-Element-4" type="math/tex">t=5</script> years and <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-23" class="math"><span style="display: inline-block; position: relative; width: 3.053em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.268em, 1000em, 2.365em, -0.415em);"><span id="MathJax-Span-24" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-25" class="mi">r</span><span style="font-family: MathJax_Main; padding-left: 0.278em;" id="MathJax-Span-26" class="mo">=</span><span style="font-family: MathJax_Main; padding-left: 0.278em;" id="MathJax-Span-27" class="mn">5</span><span style="font-family: MathJax_Main;" id="MathJax-Span-28" class="mi">%</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 1.039em; vertical-align: -0.072em;"></span></span></nobr></span><script id="MathJax-Element-5" type="math/tex">r=5\%</script> nominal
+interest.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_1" class="cell_visible">
+    <div id="cell_1" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before1">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before1").bind("plainclick",function (e) {
+                    insert_new_cell_before(1);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_1">var('r,t')</textarea>
+                <input class="eval_button" id="eval_button1" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_1" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_1" onclick="cycle_cell_output_type(1);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_1">
+                            <div class="cell_output_wrap" id="cell_output_1">
+                                
+                                    <pre class="shrunk">(r, t)</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_1">
+                                    <pre class="shrunk">(r, t)</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_1">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_2" class="cell_visible">
+    <div id="cell_2" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before2">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before2").bind("plainclick",function (e) {
+                    insert_new_cell_before(2);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_2">FV=100*e^(r*t)</textarea>
+                <input class="eval_button" id="eval_button2" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_2" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_2" onclick="cycle_cell_output_type(2);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_2">
+                            <div class="cell_output_wrap" id="cell_output_2">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_2">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_2">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_34">
+    
+    <div class="text_cell" id="cell_text_34">
+      </div>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_3" class="cell_visible">
+    <div id="cell_3" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before3">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before3").bind("plainclick",function (e) {
+                    insert_new_cell_before(3);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_3">FV(r=.05,t=5)</textarea>
+                <input class="eval_button" id="eval_button3" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_3" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_3" onclick="cycle_cell_output_type(3);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_3">
+                            <div class="cell_output_wrap" id="cell_output_3">
+                                
+                                    <pre class="shrunk">128.402541668774</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_3">
+                                    <pre class="shrunk">128.402541668774</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_3">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_35">
+    
+    <div class="text_cell" id="cell_text_35">
+      </div>
+<p>The previous cells point out several things to remember when working
+with symbolic expressions.  Some are fairly standard.</p>
+<ul class="simple">
+<li>An asterisk (<tt class="docutils literal"><span class="pre">*</span></tt>) signifies multiplication.  This should be how you
+always do multiplication.</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Although it is possible to allow implicit multiplication, this can
+easily lead to ambiguity.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>We can access the most important constants; for instance, <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-29" class="math"><span style="display: inline-block; position: relative; width: 0.436em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.32em, -0.397em);"><span id="MathJax-Span-30" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-31" class="mi">e</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.584em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-6" type="math/tex">e</script>
+stands for the constant <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-32" class="math"><span style="display: inline-block; position: relative; width: 4.023em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.115em; left: 0em; clip: rect(1.293em, 1000em, 2.282em, -0.387em);"><span id="MathJax-Span-33" class="mrow"><span style="font-family: MathJax_Main;" id="MathJax-Span-34" class="mn">2.71828...</span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.9em; vertical-align: -0.028em;"></span></span></nobr></span><script id="MathJax-Element-7" type="math/tex">2.71828...</script>.  Likewise, <tt class="docutils literal"><span class="pre">pi</span></tt> (or
+<span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-35" class="math"><span style="display: inline-block; position: relative; width: 0.533em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.587em, 1000em, 2.32em, -0.417em);"><span id="MathJax-Span-36" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-37" class="mi">p</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.57em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-8" type="math/tex">\pi</script>) and <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-38" class="math"><span style="display: inline-block; position: relative; width: 0.436em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.334em, 1000em, 2.309em, -0.41em);"><span id="MathJax-Span-39" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-40" class="mi">I</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.882em; vertical-align: 0em;"></span></span></nobr></span><script id="MathJax-Element-9" type="math/tex">I</script> (think complex numbers) are also defined.</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Of course, if you redefine <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-41" class="math"><span style="display: inline-block; position: relative; width: 0.436em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.32em, -0.397em);"><span id="MathJax-Span-42" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-43" class="mi">e</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.584em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-10" type="math/tex">e</script> to be something else, all bets
+are off!</li>
+</ul>
+</div></blockquote>
+<p>However, two others may be unfamiliar, especially if you have not used
+much mathematical software before.</p>
+<ul class="simple">
+<li>You must tell Sage what the variables are before using them in a
+symbolic expression.</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>We did that above by typing <tt class="docutils literal"><span class="pre">var('r,t')</span></tt>.</li>
+<li>This is automatically done with the <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-44" class="math"><span style="display: inline-block; position: relative; width: 1.793em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.267em, 1000em, 2.56em, -0.381em);"><span id="MathJax-Span-45" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-46" class="mi">f</span><span style="font-family: MathJax_Main;" id="MathJax-Span-47" class="mo">(</span><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-48" class="mi">x</span><span style="font-family: MathJax_Main;" id="MathJax-Span-49" class="mo">)</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 1.292em; vertical-align: -0.324em;"></span></span></nobr></span><script id="MathJax-Element-11" type="math/tex">f(x)</script> notation, but
+without that it is necessary, so that Sage knows one intends <tt class="docutils literal"><span class="pre">t</span></tt> (for
+instance) is a symbolic variable and not a number or something else.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>If you then wish to substitute some values into the expression, you
+must explicitly tell Sage which variables are being assigned which
+values.</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>For instance, above we used <tt class="docutils literal"><span class="pre">FV(r=.05,t=5)</span></tt> to indicate the precise
+values of <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-50" class="math"><span style="display: inline-block; position: relative; width: 0.436em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.32em, -0.415em);"><span id="MathJax-Span-51" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-52" class="mi">r</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.584em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-12" type="math/tex">r</script> and <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-53" class="math"><span style="display: inline-block; position: relative; width: 0.339em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.392em, 1000em, 2.32em, -0.417em);"><span id="MathJax-Span-54" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-55" class="mi">t</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.821em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-13" type="math/tex">t</script>.</li>
+</ul>
+</div></blockquote>
+<p>Notice that when we define a function, we don’t need to specify which
+variable has which value.  In the function defined below, we have
+already specified an order.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_4" class="cell_visible">
+    <div id="cell_4" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before4">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before4").bind("plainclick",function (e) {
+                    insert_new_cell_before(4);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 44px;" class="cell_input" rows="2" cols="80" id="cell_input_4">FV2(r,t)=100*e^(r*t)
+FV2(.05,5)</textarea>
+                <input class="eval_button" id="eval_button4" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_4" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_4" onclick="cycle_cell_output_type(4);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_4">
+                            <div class="cell_output_wrap" id="cell_output_4">
+                                
+                                    <pre class="shrunk">128.402541668774</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_4">
+                                    <pre class="shrunk">128.402541668774</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_4">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_36">
+    
+    <div class="text_cell" id="cell_text_36">
+      </div>
+<p>In this case it is clear that <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-56" class="math"><span style="display: inline-block; position: relative; width: 0.436em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.32em, -0.415em);"><span id="MathJax-Span-57" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-58" class="mi">r</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.584em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-14" type="math/tex">r</script> is first and <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-59" class="math"><span style="display: inline-block; position: relative; width: 0.339em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.392em, 1000em, 2.32em, -0.417em);"><span id="MathJax-Span-60" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-61" class="mi">t</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.821em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-15" type="math/tex">t</script> is second.</p>
+<p>But with <tt class="docutils literal"><span class="pre">FV=100*e^(r*t)</span></tt>, there is no particular reason <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-62" class="math"><span style="display: inline-block; position: relative; width: 0.436em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.32em, -0.415em);"><span id="MathJax-Span-63" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-64" class="mi">r</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.584em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-16" type="math/tex">r</script> or
+<span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-65" class="math"><span style="display: inline-block; position: relative; width: 0.339em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.392em, 1000em, 2.32em, -0.417em);"><span id="MathJax-Span-66" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-67" class="mi">t</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.821em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-17" type="math/tex">t</script> should be first.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_5" class="cell_visible">
+    <div id="cell_5" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before5">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before5").bind("plainclick",function (e) {
+                    insert_new_cell_before(5);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_5">FV(r=.05,t=5); FV(t=5,r=.05)</textarea>
+                <input class="eval_button" id="eval_button5" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_5" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_5" onclick="cycle_cell_output_type(5);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_5">
+                            <div class="cell_output_wrap" id="cell_output_5">
+                                
+                                    <pre class="shrunk">128.402541668774128.402541668774</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_5">
+                                    <pre class="shrunk">128.402541668774128.402541668774</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_5">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_37">
+    
+    <div class="text_cell" id="cell_text_37">
+      </div>
+<p>This is why we receive a deprecation error message when we try to do
+<span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-68" class="math"><span style="display: inline-block; position: relative; width: 1.212em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.335em, 1000em, 2.332em, -0.406em);"><span id="MathJax-Span-69" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-70" class="mi">F</span><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-71" class="mi">V</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.91em; vertical-align: -0.03em;"></span></span></nobr></span><script id="MathJax-Element-18" type="math/tex">FV</script> without explicitly mentioning the variables.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_6" class="cell_visible">
+    <div id="cell_6" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before6">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before6").bind("plainclick",function (e) {
+                    insert_new_cell_before(6);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_6">FV(5,.05)</textarea>
+                <input class="eval_button" id="eval_button6" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_6" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_6" onclick="cycle_cell_output_type(6);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_6">
+                            <div class="cell_output_wrap" id="cell_output_6">
+                                
+                                    <pre class="shrunk">doctest:...: DeprecationWarning: Substitution using function-call syntax
+and unnamed arguments is deprecated and will be removed from a future
+release of Sage; you can use named arguments instead, like EXPR(x=...,
+y=...)See http://trac.sagemath.org/5930 for details.128.402541668774</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_6">
+                                    <pre class="shrunk">doctest:...: DeprecationWarning: Substitution using function-call syntax and unnamed arguments is deprecated and will be removed from a future release of Sage; you can use named arguments instead, like EXPR(x=..., y=...)See http://trac.sagemath.org/5930 for details.128.402541668774</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_6">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_38">
+    
+    <div class="text_cell" id="cell_text_38">
+      </div>
+<p>In this case, the outcome is the same, since <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-72" class="math"><span style="display: inline-block; position: relative; width: 2.811em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.392em, 1000em, 2.32em, -0.415em);"><span id="MathJax-Span-73" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-74" class="mi">r</span><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-75" class="mi">t</span><span style="font-family: MathJax_Main; padding-left: 0.278em;" id="MathJax-Span-76" class="mo">=</span><span style="font-family: MathJax_Math; font-style: italic; padding-left: 0.278em;" id="MathJax-Span-77" class="mi">t</span><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-78" class="mi">r</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.821em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-19" type="math/tex">rt=tr</script>!  Of course,
+in most expressions, one would not be so lucky, as the following example
+indicates.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_7" class="cell_visible">
+    <div id="cell_7" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before7">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before7").bind("plainclick",function (e) {
+                    insert_new_cell_before(7);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 63px;" class="cell_input" rows="3" cols="80" id="cell_input_7">y = var('y')
+G = x*y^2
+G(1,2); G(2,1)</textarea>
+                <input class="eval_button" id="eval_button7" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_7" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_7" onclick="cycle_cell_output_type(7);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_7">
+                            <div class="cell_output_wrap" id="cell_output_7">
+                                
+                                    <pre class="shrunk">42</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_7">
+                                    <pre class="shrunk">42</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_7">
+                                    <img src="/home/_sage_/93596/cells/7/sage0.png?1401229113">
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_39">
+    
+    <div class="text_cell" id="cell_text_39">
+      </div>
+<p>Also remember that when we don’t use function notation, we’ll need to
+define our variables.</p>
+<p>One of the great things we can do with expressions is manipulate them.
+Let’s make a typical expression.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_8" class="cell_visible">
+    <div id="cell_8" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before8">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before8").bind("plainclick",function (e) {
+                    insert_new_cell_before(8);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_8">z = (x+1)^3</textarea>
+                <input class="eval_button" id="eval_button8" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_8" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_8" onclick="cycle_cell_output_type(8);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_8">
+                            <div class="cell_output_wrap" id="cell_output_8">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_8">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_8">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_40">
+    
+    <div class="text_cell" id="cell_text_40">
+      </div>
+<p>In the cells below, you’ll notice something new: the character <tt class="docutils literal"><span class="pre">#</span></tt>.
+In Sage (and in <a class="reference external" href="http://www.python.org">Python</a> ), anything on a
+single line after the number/pound sign (the <a class="reference external" href="http://en.wikipedia.org/wiki/Number_sign">octothorp</a> ) is ignored.  We say that
+<tt class="docutils literal"><span class="pre">#</span></tt> is a comment character.  We use it below to mention alternative
+ways to do the same thing.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_9" class="cell_visible">
+    <div id="cell_9" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before9">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before9").bind("plainclick",function (e) {
+                    insert_new_cell_before(9);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_9">expand(z) # or z.expand()</textarea>
+                <input class="eval_button" id="eval_button9" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_9" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_9" onclick="cycle_cell_output_type(9);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_9">
+                            <div class="cell_output_wrap" id="cell_output_9">
+                                
+                                    <pre class="shrunk">x^3 + 3*x^2 + 3*x + 1</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_9">
+                                    <pre class="shrunk">x^3 + 3*x^2 + 3*x + 1</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_9">
+                                    <img src="/home/_sage_/93596/cells/9/sage0.png?1401229113">
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_41">
+    
+    <div class="text_cell" id="cell_text_41">
+      </div>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_10" class="cell_visible">
+    <div id="cell_10" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before10">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before10").bind("plainclick",function (e) {
+                    insert_new_cell_before(10);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 44px;" class="cell_input" rows="2" cols="80" id="cell_input_10">y = expand(z)
+y.factor() # or factor(y)</textarea>
+                <input class="eval_button" id="eval_button10" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_10" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_10" onclick="cycle_cell_output_type(10);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_10">
+                            <div class="cell_output_wrap" id="cell_output_10">
+                                
+                                    <pre class="shrunk">(x + 1)^3</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_10">
+                                    <pre class="shrunk">(x + 1)^3</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_10">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_42">
+    
+    <div class="text_cell" id="cell_text_42">
+      </div>
+<p>In the previous cell, we <em>assigned</em> the expression which is the
+expansion of <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-79" class="math"><span style="display: inline-block; position: relative; width: 0.436em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.321em, -0.401em);"><span id="MathJax-Span-80" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-81" class="mi">z</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.585em; vertical-align: -0.015em;"></span></span></nobr></span><script id="MathJax-Element-20" type="math/tex">z</script> to the variable <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-82" class="math"><span style="display: inline-block; position: relative; width: 0.485em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.514em, -0.415em);"><span id="MathJax-Span-83" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-84" class="mi">y</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.834em; vertical-align: -0.264em;"></span></span></nobr></span><script id="MathJax-Element-21" type="math/tex">y</script> with the first line.
+After that, anything we want to do to the expansion of <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-85" class="math"><span style="display: inline-block; position: relative; width: 0.436em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.321em, -0.401em);"><span id="MathJax-Span-86" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-87" class="mi">z</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.585em; vertical-align: -0.015em;"></span></span></nobr></span><script id="MathJax-Element-22" type="math/tex">z</script> can be
+done by doing it to <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-88" class="math"><span style="display: inline-block; position: relative; width: 0.485em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.514em, -0.415em);"><span id="MathJax-Span-89" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-90" class="mi">y</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.834em; vertical-align: -0.264em;"></span></span></nobr></span><script id="MathJax-Element-23" type="math/tex">y</script>.</p>
+<p>There are more commands like this as well.  Notice that <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-91" class="math"><span style="display: inline-block; position: relative; width: 0.436em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.321em, -0.401em);"><span id="MathJax-Span-92" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-93" class="mi">z</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.585em; vertical-align: -0.015em;"></span></span></nobr></span><script id="MathJax-Element-24" type="math/tex">z</script> will
+no longer be <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-94" class="math"><span style="display: inline-block; position: relative; width: 3.538em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.071em, 1000em, 2.56em, -0.342em);"><span id="MathJax-Span-95" class="mrow"><span style="font-family: MathJax_Main;" id="MathJax-Span-96" class="mo">(</span><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-97" class="mi">x</span><span style="font-family: MathJax_Main; padding-left: 0.222em;" id="MathJax-Span-98" class="mo">+</span><span style="font-family: MathJax_Main; padding-left: 0.222em;" id="MathJax-Span-99" class="mn">1</span><span id="MathJax-Span-100" class="texatom"><span id="MathJax-Span-101" class="mrow"><span id="MathJax-Span-102" class="msubsup"><span style="display: inline-block; position: relative; width: 0.925em; height: 0px;"><span style="position: absolute; top: -2.115em; left: 0em; clip: rect(1.219em, 1000em, 2.51em, -0.381em);"><span style="font-family: MathJax_Main;" id="MathJax-Span-103" class="mo">)</span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="position: absolute; top: -2.592em; left: 0.463em;"><span style="font-size: 70.7%; font-family: MathJax_Main;" id="MathJax-Span-104" class="mn">3</span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 1.545em; vertical-align: -0.324em;"></span></span></nobr></span><script id="MathJax-Element-25" type="math/tex">(x+1)^3</script> after this cell is evaluated, since we’ve
+assigned <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-105" class="math"><span style="display: inline-block; position: relative; width: 0.436em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.576em, 1000em, 2.321em, -0.401em);"><span id="MathJax-Span-106" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-107" class="mi">z</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.585em; vertical-align: -0.015em;"></span></span></nobr></span><script id="MathJax-Element-26" type="math/tex">z</script> to a (much more complex) expression.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_11" class="cell_visible">
+    <div id="cell_11" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before11">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before11").bind("plainclick",function (e) {
+                    insert_new_cell_before(11);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 44px;" class="cell_input" rows="2" cols="80" id="cell_input_11">z = ((x - 1)^(3/2) - (x + 1)*sqrt(x - 1))/sqrt((x - 1)*(x + 1))
+z.simplify_full()</textarea>
+                <input class="eval_button" id="eval_button11" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_11" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_11" onclick="cycle_cell_output_type(11);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_11">
+                            <div class="cell_output_wrap" id="cell_output_11">
+                                
+                                    <pre class="shrunk">-2/sqrt(x + 1)</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_11">
+                                    <pre class="shrunk">-2/sqrt(x + 1)</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_11">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_43">
+    
+    <div class="text_cell" id="cell_text_43">
+      </div>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_12" class="cell_visible">
+    <div id="cell_12" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before12">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before12").bind("plainclick",function (e) {
+                    insert_new_cell_before(12);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="2" cols="80" id="cell_input_12">z.simplify_rational() # Just simplify the fraction part of the expression by combining it.</textarea>
+                <input class="eval_button" id="eval_button12" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_12" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_12" onclick="cycle_cell_output_type(12);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_12">
+                            <div class="cell_output_wrap" id="cell_output_12">
+                                
+                                    <pre class="shrunk">-2*sqrt(x - 1)/sqrt(x^2 - 1)</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_12">
+                                    <pre class="shrunk">-2*sqrt(x - 1)/sqrt(x^2 - 1)</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_12">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_44">
+    
+    <div class="text_cell" id="cell_text_44">
+      </div>
+<p>This is a good place for a few reminders of basic help.</p>
+<ul class="simple">
+<li>You can see various methods for simplifying an expression by using tab
+completion.  Put your cursor at the end of the next cell (after the
+<tt class="docutils literal"><span class="pre">simplify</span></tt>) and press tab to see lots of different methods.</li>
+<li>Also remember that you can use the question mark (e.g.,
+<tt class="docutils literal"><span class="pre">z.simplify_rational?</span></tt>) to get help about a particular method.</li>
+</ul>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_13" class="cell_visible">
+    <div id="cell_13" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before13">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before13").bind("plainclick",function (e) {
+                    insert_new_cell_before(13);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_13">z.simplify</textarea>
+                <input class="eval_button" id="eval_button13" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_13" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_13" onclick="cycle_cell_output_type(13);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_13">
+                            <div class="cell_output_wrap" id="cell_output_13">
+                                
+                                    <pre class="shrunk">&lt;built-in method simplify of sage.symbolic.expression.Expression
+object at ...&gt;</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_13">
+                                    <pre class="shrunk">&lt;built-in method simplify of sage.symbolic.expression.Expression object at ...&gt;</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_13">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_45">
+    
+    <div class="text_cell" id="cell_text_45">
+      </div>
+<p>Finally, recall that you can get nicely typeset versions of the output
+in several ways.</p>
+<ul class="simple">
+<li>One option is to click the ‘Typeset’ button at the top.</li>
+<li>Another - which does not require scrolling! - is to use the <tt class="docutils literal"><span class="pre">show</span></tt>
+command.</li>
+</ul>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_14" class="cell_visible">
+    <div id="cell_14" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before14">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before14").bind("plainclick",function (e) {
+                    insert_new_cell_before(14);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_14">show(z.simplify_rational())</textarea>
+                <input class="eval_button" id="eval_button14" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_14" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_14" onclick="cycle_cell_output_type(14);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_14">
+                            <div class="cell_output_wrap" id="cell_output_14">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_14">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_14">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_46">
+    
+    <div class="text_cell" id="cell_text_46">
+      </div>
+<span style="display: none;" class="MathJax_Preview"></span><div aria-readonly="true" role="textbox" style="width: 100%; position: relative; text-align: center;" class="MathJax_Display"><span style="" class="MathJax"><nobr><span id="MathJax-Span-108" class="math"><span style="display: inline-block; position: relative; width: 4.992em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.115em; left: 0em; clip: rect(0.451em, 1000em, 3.221em, -0.353em);"><span id="MathJax-Span-109" class="mrow"><span style="font-family: MathJax_Main;" id="MathJax-Span-110" class="mo">-</span><span style="padding-left: 0.287em; padding-right: 0.12em;" id="MathJax-Span-111" class="mfrac"><span style="display: inline-block; position: relative; width: 3.803em; height: 0px;"><span style="position: absolute; top: -2.791em; left: 50%; clip: rect(1.127em, 1000em, 2.418em, -0.387em); margin-left: -1.842em;"><span id="MathJax-Span-112" class="mrow"><span style="font-family: MathJax_Main;" id="MathJax-Span-113" class="mn">2</span><span style="font-size: 70.7%; height: 0em; vertical-align: 0em; width: 0.167em; display: inline-block;" id="MathJax-Span-114" class="mspace"></span><span id="MathJax-Span-115" class="msqrt"><span style="display: inline-block; position: relative; width: 3.078em; height: 0px;"><span style="position: absolute; top: -2.163em; left: 0.824em; clip: rect(1.352em, 1000em, 2.32em, -0.401em);"><span id="MathJax-Span-116" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-117" class="mi">x</span><span style="font-family: MathJax_Main; padding-left: 0.222em;" id="MathJax-Span-118" class="mo">-</span><span style="font-family: MathJax_Main; padding-left: 0.222em;" id="MathJax-Span-119" class="mn">1</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span><span style="position: absolute; top: -2.687em; left: 0.824em; clip: rect(1.699em, 1000em, 2.03em, -0.436em);"><span style="display: inline-block; position: relative; width: 2.254em; height: 0px;"><span style="position: absolute; font-family: MathJax_Main; top: -2.115em; left: -0.083em;">-<span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="position: absolute; font-family: MathJax_Main; top: -2.115em; left: 1.56em;">-<span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="font-family: MathJax_Main; position: absolute; top: -2.115em; left: 0.448em;">-<span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="font-family: MathJax_Main; position: absolute; top: -2.115em; left: 1.004em;">-<span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="position: absolute; top: -2.157em; left: 0em; clip: rect(1.169em, 1000em, 2.46em, -0.364em);"><span style="font-family: MathJax_Main;">v</span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="position: absolute; top: -1.265em; left: 50%; clip: rect(1.08em, 1000em, 2.371em, -0.364em); margin-left: -1.817em;"><span id="MathJax-Span-120" class="msqrt"><span style="display: inline-block; position: relative; width: 3.611em; height: 0px;"><span style="position: absolute; top: -2.115em; left: 0.824em; clip: rect(1.209em, 1000em, 2.271em, -0.401em);"><span id="MathJax-Span-121" class="mrow"><span id="MathJax-Span-122" class="msubsup"><span style="display: inline-block; position: relative; width: 1.071em; height: 0px;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.575em, 1000em, 2.32em, -0.401em);"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-123" class="mi">x</span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span><span style="position: absolute; top: -2.404em; left: 0.608em;"><span id="MathJax-Span-124" class="texatom"><span id="MathJax-Span-125" class="mrow"><span style="font-size: 70.7%; font-family: MathJax_Main;" id="MathJax-Span-126" class="mn">2</span></span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span></span><span style="font-family: MathJax_Main; padding-left: 0.222em;" id="MathJax-Span-127" class="mo">-</span><span style="font-family: MathJax_Main; padding-left: 0.222em;" id="MathJax-Span-128" class="mn">1</span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="position: absolute; top: -2.734em; left: 0.824em; clip: rect(1.699em, 1000em, 2.03em, -0.436em);"><span style="display: inline-block; position: relative; width: 2.788em; height: 0px;"><span style="position: absolute; font-family: MathJax_Main; top: -2.115em; left: -0.083em;">-<span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="position: absolute; font-family: MathJax_Main; top: -2.115em; left: 2.094em;">-<span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="font-family: MathJax_Main; position: absolute; top: -2.115em; left: 0.442em;">-<span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="font-family: MathJax_Main; position: absolute; top: -2.115em; left: 0.993em;">-<span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="font-family: MathJax_Main; position: absolute; top: -2.115em; left: 1.543em;">-<span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="position: absolute; top: -2.204em; left: 0em; clip: rect(1.169em, 1000em, 2.46em, -0.364em);"><span style="font-family: MathJax_Main;">v</span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span><span style="position: absolute; top: -2.335em; left: 0em; clip: rect(1.909em, 1000em, 2.26em, -0.436em);"><span style="border-left: 3.803em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.061em; vertical-align: 0em;"></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 3.198em; vertical-align: -1.24em;"></span></span></nobr></span></div><script id="MathJax-Element-27" type="math/tex; mode=display">
+-\frac{2 \, \sqrt{x - 1}}{\sqrt{x^{2} - 1}}</script>
+<p>Another Sage command that is useful in this context is <tt class="docutils literal"><span class="pre">solve</span></tt>.</p>
+<p>Here, we solve the simple equation <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-129" class="math"><span style="display: inline-block; position: relative; width: 3.635em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.115em; left: 0em; clip: rect(1.135em, 1000em, 2.271em, -0.401em);"><span id="MathJax-Span-130" class="mrow"><span id="MathJax-Span-131" class="msubsup"><span style="display: inline-block; position: relative; width: 1.071em; height: 0px;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.575em, 1000em, 2.32em, -0.401em);"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-132" class="mi">x</span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span><span style="position: absolute; top: -2.478em; left: 0.608em;"><span style="font-size: 70.7%; font-family: MathJax_Main;" id="MathJax-Span-133" class="mn">2</span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span></span><span style="font-family: MathJax_Main; padding-left: 0.278em;" id="MathJax-Span-134" class="mo">=</span><span style="font-family: MathJax_Main; padding-left: 0.278em;" id="MathJax-Span-135" class="mo">-</span><span style="font-family: MathJax_Main;" id="MathJax-Span-136" class="mn">1</span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 1.089em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-28" type="math/tex">x^2=-1</script>.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_15" class="cell_visible">
+    <div id="cell_15" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before15">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before15").bind("plainclick",function (e) {
+                    insert_new_cell_before(15);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_15">solve(x^2==-1,x) # solve x^2==-1 for x</textarea>
+                <input class="eval_button" id="eval_button15" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_15" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_15" onclick="cycle_cell_output_type(15);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_15">
+                            <div class="cell_output_wrap" id="cell_output_15">
+                                
+                                    <pre class="shrunk">[x == -I, x == I]</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_15">
+                                    <pre class="shrunk">[x == -I, x == I]</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_15">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_47">
+    
+    <div class="text_cell" id="cell_text_47">
+      </div>
+<ul class="simple">
+<li>In the <tt class="docutils literal"><span class="pre">solve</span></tt> command, one types an equals sign in the equation as
+<em>two</em> equal signs.</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>This is because the single equals sign means assignment to a
+variable, as we’ve done above, so Sage (along with Python) uses the
+double equals sign for symbolic equality.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>We also include the variable we’d like to solve for after the comma.</li>
+</ul>
+<p>It’s also possible to solve more than one expression simultaneously.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_16" class="cell_visible">
+    <div id="cell_16" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before16">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before16").bind("plainclick",function (e) {
+                    insert_new_cell_before(16);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_16">solve([x^2==1,x^3==1],x)</textarea>
+                <input class="eval_button" id="eval_button16" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_16" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_16" onclick="cycle_cell_output_type(16);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_16">
+                            <div class="cell_output_wrap" id="cell_output_16">
+                                
+                                    <pre class="shrunk">[[x == 1]]</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_16">
+                                    <pre class="shrunk">[[x == 1]]</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_16">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_48">
+    
+    <div class="text_cell" id="cell_text_48">
+      </div>
+</span></div>
+<div class="section" id="basic-2d-plotting">
+<span id="dplotting"></span><h2>Basic 2D Plotting<a class="headerlink" href="#basic-2d-plotting" title="Permalink to this headline">¶</a></h2>
+<p>One of the other basic uses of mathematics software is easy plotting.
+Here, we include a brief introduction to the sorts of plotting which
+will prepare us to use Sage in calculus.  (There will be a separate
+tutorial for more advanced plotting techniques.)</p>
+<p>Recall that we can generate a plot using fairly simple syntax.  Here, we
+define a function of <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-137" class="math"><span style="display: inline-block; position: relative; width: 0.533em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.575em, 1000em, 2.32em, -0.401em);"><span id="MathJax-Span-138" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-139" class="mi">x</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.585em; vertical-align: -0.014em;"></span></span></nobr></span><script id="MathJax-Element-29" type="math/tex">x</script> and plot it between <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-140" class="math"><span style="display: inline-block; position: relative; width: 1.26em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.115em; left: 0em; clip: rect(1.303em, 1000em, 2.26em, -0.353em);"><span id="MathJax-Span-141" class="mrow"><span style="font-family: MathJax_Main;" id="MathJax-Span-142" class="mo">-</span><span style="font-family: MathJax_Main;" id="MathJax-Span-143" class="mn">1</span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.859em; vertical-align: 0em;"></span></span></nobr></span><script id="MathJax-Element-30" type="math/tex">-1</script> and
+<span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-144" class="math"><span style="display: inline-block; position: relative; width: 0.485em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.115em; left: 0em; clip: rect(1.303em, 1000em, 2.26em, -0.353em);"><span id="MathJax-Span-145" class="mrow"><span style="font-family: MathJax_Main;" id="MathJax-Span-146" class="mn">1</span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.859em; vertical-align: 0em;"></span></span></nobr></span><script id="MathJax-Element-31" type="math/tex">1</script>.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_17" class="cell_visible">
+    <div id="cell_17" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before17">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before17").bind("plainclick",function (e) {
+                    insert_new_cell_before(17);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 44px;" class="cell_input" rows="2" cols="80" id="cell_input_17">f(x)=x^3+1
+plot(f,(x,-1,1))</textarea>
+                <input class="eval_button" id="eval_button17" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_17" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_17" onclick="cycle_cell_output_type(17);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_17">
+                            <div class="cell_output_wrap" id="cell_output_17">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_17">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_17">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_49">
+    
+    <div class="text_cell" id="cell_text_49">
+      </div>
+<p>We can give the plot a name, so that if we want to do something with the
+plot later, we don’t have to type out the entire plot command.
+Remember, this is called <em>assigning</em> the plot to the name/variable.</p>
+<p>In the next cell, we give the plot the name <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-147" class="math"><span style="display: inline-block; position: relative; width: 0.63em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.335em, 1000em, 2.309em, -0.403em);"><span id="MathJax-Span-148" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-149" class="mi">P</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.881em; vertical-align: 0em;"></span></span></nobr></span><script id="MathJax-Element-32" type="math/tex">P</script>.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_18" class="cell_visible">
+    <div id="cell_18" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before18">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before18").bind("plainclick",function (e) {
+                    insert_new_cell_before(18);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_18">P=plot(f,(x,-1,1))</textarea>
+                <input class="eval_button" id="eval_button18" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_18" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_18" onclick="cycle_cell_output_type(18);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_18">
+                            <div class="cell_output_wrap" id="cell_output_18">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_18">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_18">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_50">
+    
+    <div class="text_cell" id="cell_text_50">
+      </div>
+<p>One plot is nice, but one might want to superimpose plots as well.  For
+instance, the tangent line to <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-150" class="math"><span style="display: inline-block; position: relative; width: 0.485em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.313em, 1000em, 2.514em, -0.381em);"><span id="MathJax-Span-151" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-152" class="mi">f</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 1.174em; vertical-align: -0.264em;"></span></span></nobr></span><script id="MathJax-Element-33" type="math/tex">f</script> at <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-153" class="math"><span style="display: inline-block; position: relative; width: 2.326em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.352em, 1000em, 2.331em, -0.401em);"><span id="MathJax-Span-154" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-155" class="mi">x</span><span style="font-family: MathJax_Main; padding-left: 0.278em;" id="MathJax-Span-156" class="mo">=</span><span style="font-family: MathJax_Main; padding-left: 0.278em;" id="MathJax-Span-157" class="mn">0</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.887em; vertical-align: -0.028em;"></span></span></nobr></span><script id="MathJax-Element-34" type="math/tex">x=0</script> is just the line
+<span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-158" class="math"><span style="display: inline-block; position: relative; width: 2.278em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.352em, 1000em, 2.514em, -0.415em);"><span id="MathJax-Span-159" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-160" class="mi">y</span><span style="font-family: MathJax_Main; padding-left: 0.278em;" id="MathJax-Span-161" class="mo">=</span><span style="font-family: MathJax_Main; padding-left: 0.278em;" id="MathJax-Span-162" class="mn">1</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 1.123em; vertical-align: -0.264em;"></span></span></nobr></span><script id="MathJax-Element-35" type="math/tex">y=1</script>, and we might want to show this together with the plot.</p>
+<p>So let’s plot this line in a different color, and with a different style
+for the line, but over the same interval.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_19" class="cell_visible">
+    <div id="cell_19" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before19">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before19").bind("plainclick",function (e) {
+                    insert_new_cell_before(19);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 44px;" class="cell_input" rows="2" cols="80" id="cell_input_19">Q=plot(1,(x,-1,1),color="red", linestyle="--")
+Q</textarea>
+                <input class="eval_button" id="eval_button19" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_19" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_19" onclick="cycle_cell_output_type(19);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_19">
+                            <div class="cell_output_wrap" id="cell_output_19">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_19">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_19">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_51">
+    
+    <div class="text_cell" id="cell_text_51">
+      </div>
+<p>Because we put <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-163" class="math"><span style="display: inline-block; position: relative; width: 0.775em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.314em, 1000em, 2.504em, -0.386em);"><span id="MathJax-Span-164" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-165" class="mi">Q</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 1.159em; vertical-align: -0.251em;"></span></span></nobr></span><script id="MathJax-Element-36" type="math/tex">Q</script> in a line by itself at the end, it shows.  We
+were able to use just one cell to define <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-166" class="math"><span style="display: inline-block; position: relative; width: 0.775em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.163em; left: 0em; clip: rect(1.314em, 1000em, 2.504em, -0.386em);"><span id="MathJax-Span-167" class="mrow"><span style="font-family: MathJax_Math; font-style: italic;" id="MathJax-Span-168" class="mi">Q</span></span><span style="display: inline-block; width: 0px; height: 2.163em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 1.159em; vertical-align: -0.251em;"></span></span></nobr></span><script id="MathJax-Element-37" type="math/tex">Q</script> and show it, by
+putting each command in a separate line in the same input cell.</p>
+<p>Now to show the plots superimposed on each other, we simply add them.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_20" class="cell_visible">
+    <div id="cell_20" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before20">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before20").bind("plainclick",function (e) {
+                    insert_new_cell_before(20);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_20">P+Q</textarea>
+                <input class="eval_button" id="eval_button20" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_20" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_20" onclick="cycle_cell_output_type(20);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_20">
+                            <div class="cell_output_wrap" id="cell_output_20">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_20">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_20">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_52">
+    
+    <div class="text_cell" id="cell_text_52">
+      </div>
+<p>Suppose we wanted to view a detail of this.</p>
+<ul class="simple">
+<li>We could create another plot with different endpoints.</li>
+<li>Another way is to keep the currently created plots, but to set the
+viewing window using the <tt class="docutils literal"><span class="pre">show</span></tt> command, as below.</li>
+</ul>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_21" class="cell_visible">
+    <div id="cell_21" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before21">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before21").bind("plainclick",function (e) {
+                    insert_new_cell_before(21);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_21">(P+Q).show(xmin=-.1,xmax=.1,ymin=.99,ymax=1.01)</textarea>
+                <input class="eval_button" id="eval_button21" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_21" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_21" onclick="cycle_cell_output_type(21);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_21">
+                            <div class="cell_output_wrap" id="cell_output_21">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_21">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_21">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_53">
+    
+    <div class="text_cell" id="cell_text_53">
+      </div>
+<p>Since the axes no longer cross in the frame of reference, Sage shows a
+short gap between the horizontal and vertical axes.</p>
+<p>There are many options one can pass in for various purposes.</p>
+<ul class="simple">
+<li>Some require quotes around the values.</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Such as the <tt class="docutils literal"><span class="pre">color</span></tt> option when we made a <tt class="docutils literal"><span class="pre">"red"</span></tt> line.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Some do not.</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>Such as the <tt class="docutils literal"><span class="pre">xmin</span></tt> in the previous plot, where the minimum x value
+was just <span style="display: none;" class="MathJax_Preview"></span><span style="" aria-readonly="true" role="textbox" class="MathJax"><nobr><span id="MathJax-Span-169" class="math"><span style="display: inline-block; position: relative; width: 1.502em; height: 0px; font-size: 129%;"><span style="position: absolute; top: -2.115em; left: 0em; clip: rect(1.303em, 1000em, 2.26em, -0.353em);"><span id="MathJax-Span-170" class="mrow"><span style="font-family: MathJax_Main;" id="MathJax-Span-171" class="mo">-</span><span style="font-family: MathJax_Main;" id="MathJax-Span-172" class="mn">.1</span></span><span style="display: inline-block; width: 0px; height: 2.115em;"></span></span></span><span style="border-left: 0em solid; display: inline-block; overflow: hidden; width: 0px; height: 0.859em; vertical-align: 0em;"></span></span></nobr></span><script id="MathJax-Element-38" type="math/tex">-.1</script></li>
+</ul>
+</div></blockquote>
+<p>Usually (though not always) quotes are required for option values which
+are words or strings of characters, and not required for numerical
+values.</p>
+<p>Two of the most useful of these options help in labeling graphs.</p>
+<ul class="simple">
+<li>The <tt class="docutils literal"><span class="pre">axes_labels</span></tt> option labels the axes.</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>As with the word processor, we can use dollar signs (like in LaTeX)
+to make the labels typeset nicely.</li>
+<li>Here we need both quotes and brackets for proper syntax, since there
+are two axes to label and the labels are not actually numbers.</li>
+</ul>
+</div></blockquote>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_22" class="cell_visible">
+    <div id="cell_22" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before22">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before22").bind("plainclick",function (e) {
+                    insert_new_cell_before(22);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="2" cols="80" id="cell_input_22">plot(f,(x,-1,1),axes_labels=['$x$','$y$'],legend_label='$f(x)$',show_legend=True)</textarea>
+                <input class="eval_button" id="eval_button22" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_22" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_22" onclick="cycle_cell_output_type(22);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_22">
+                            <div class="cell_output_wrap" id="cell_output_22">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_22">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_22">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_54">
+    
+    <div class="text_cell" id="cell_text_54">
+      </div>
+<ul class="simple">
+<li>The <tt class="docutils literal"><span class="pre">legend_label</span></tt> option is especially useful with multiple plots.</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>LaTeX notation works here too.</li>
+<li>In the graphic above, we needed to explicitly ask to show the label.
+With multiple graphs this should not be necessary.</li>
+</ul>
+</div></blockquote>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_23" class="cell_visible">
+    <div id="cell_23" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before23">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before23").bind("plainclick",function (e) {
+                    insert_new_cell_before(23);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 63px;" class="cell_input" rows="5" cols="80" id="cell_input_23">P1 = plot(f,(x,-1,1),axes_labels=['$x$','$y$'],legend_label='$f(x)$')
+P2 = plot(sin,(x,-1,1),axes_labels=['$x$','$y$'],legend_label='$\sin(x)$',color='red')
+P1+P2</textarea>
+                <input class="eval_button" id="eval_button23" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_23" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_23" onclick="cycle_cell_output_type(23);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_23">
+                            <div class="cell_output_wrap" id="cell_output_23">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_23">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_23">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_55">
+    
+    <div class="text_cell" id="cell_text_55">
+      </div>
+<p>One additional useful note is that plots of functions with vertical
+asymptotes may need their vertical viewing range set manually; otherwise
+the asymptote may really go to infinity!</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_24" class="cell_visible">
+    <div id="cell_24" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before24">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before24").bind("plainclick",function (e) {
+                    insert_new_cell_before(24);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_24">plot(1/x^2,(x,-10,10),ymax=10)</textarea>
+                <input class="eval_button" id="eval_button24" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_24" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_24" onclick="cycle_cell_output_type(24);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_24">
+                            <div class="cell_output_wrap" id="cell_output_24">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_24">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_24">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_56">
+    
+    <div class="text_cell" id="cell_text_56">
+      </div>
+<p>Remember, you can use the command <tt class="docutils literal"><span class="pre">plot?</span></tt> to find out about most of
+the options demonstrated above.</p>
+<p>Below, you can experiment with several of the plotting options.</p>
+<ul class="simple">
+<li>Just evaluate the cell and play with the sliders, buttons, color
+picker, etc., to change the plot options.</li>
+<li>You can access low-level options like the initial number of plotted
+points, or high-level ones like whether axes are shown or not.</li>
+<li>This uses a feature of Sage called “interacts”, which is a very
+powerful way to engage students in exploring a problem.</li>
+</ul>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_25" class="cell_visible">
+    <div id="cell_25" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before25">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before25").bind("plainclick",function (e) {
+                    insert_new_cell_before(25);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 312px;" class="cell_input" rows="19" cols="80" id="cell_input_25">x = var('x')
+@interact
+def plot_example(f=sin(x^2),r=range_slider(-5,5,step_size=1/4,default=(-3,3)),
+                   color=color_selector(widget='colorpicker'),
+                   thickness=(3,(1..10)),
+                   adaptive_recursion=(5,(0..10)), adaptive_tolerance=(0.01,(0.001,1)),
+                   plot_points=(20,(1..100)),
+                   linestyle=['-','--','-.',':'],
+                   gridlines=False, fill=False,
+                   frame=False, axes=True
+                   ):
+      show(plot(f, (x,r[0],r[1]), color=color, thickness=thickness,
+                   adaptive_recursion=adaptive_recursion,
+                   adaptive_tolerance=adaptive_tolerance, plot_points=plot_points,
+                   linestyle=linestyle, fill=fill if fill else None),
+                   gridlines=gridlines, frame=frame, axes=axes)</textarea>
+                <input class="eval_button" id="eval_button25" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_25" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_25" onclick="cycle_cell_output_type(25);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_25">
+                            <div class="cell_output_wrap" id="cell_output_25">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_25">
+                                    <h2>Click to the left again to hide and once more to show the dynamic interactive window</h2>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_25">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_57">
+    
+    <div class="text_cell" id="cell_text_57">
+      </div>
+</span></div>
+<div class="section" id="basic-3d-plotting">
+<span id="id1"></span><h2>Basic 3D Plotting<a class="headerlink" href="#basic-3d-plotting" title="Permalink to this headline">¶</a></h2>
+<p>There are several mechanisms for viewing three-dimensional plots in
+Sage, but we will stick to the default option in the notebook interface,
+which is via Java applets from the program <a class="reference external" href="http://jmol.sourceforge.net/">Jmol</a> .</p>
+<p>Plotting a 3D plot is similar to plotting a 2D plot, but we need to
+specify ranges for two variables instead of one.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_26" class="cell_visible">
+    <div id="cell_26" class="cell_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before26">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before26").bind("plainclick",function (e) {
+                    insert_new_cell_before(26);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 44px;" class="cell_input" rows="2" cols="80" id="cell_input_26">g(x,y)=sin(x^2+y^2)
+plot3d(g,(x,-5,5),(y,-5,5))</textarea>
+                <input class="eval_button" id="eval_button26" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_26" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_26" onclick="cycle_cell_output_type(26);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_26">
+                            <div class="cell_output_wrap" id="cell_output_26"> </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_26"> </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_26"><div id="jmol_static26" style="display: none;"></div><table id="Jmol_Table_Jmol0"><tbody><tr><td id="Jmol_Table_Jmol0_cell_0_0"><div id="Adv_but_Jmol0"><button onclick="javascript:void(toggling_button('Jmol_Table_Jmol0_cell_0_1'))">Toggle Advanced Controls</button><button onclick="jmol_help()">Help for Jmol 3-D viewer</button></div><div id="Jmol0"><object name="jmolApplet0" id="jmolApplet0" type="application/x-java-applet" height="400" width="400">
+  <param name="syncId" value="384186638936419">
+  <param name="progressbar" value="true">
+  <param name="progresscolor" value="blue">
+  <param name="boxbgcolor" value="white">
+  <param name="boxfgcolor" value="black">
+  <param name="boxmessage" value="Downloading JmolApplet ...">
+  <param name="menuFile" value="/java/jmol/appletweb/SageMenu.mnu">
+  <param name="archive" value="JmolApplet0.jar">
+  <param name="mayscript" value="true">
+  <param name="codebase" value="/java/jmol">
+  <param name="code" value="JmolApplet">
+  <param name="java_arguments" value="-Xmx512m">
+  <param name="script" value="set defaultdirectory &quot;/home/_sage_/93596/cells/26/sage0-size500.jmol&quot;;script &quot;/home/_sage_/93596/cells/26/sage0-size500.jmol?1401229151&quot;; isosurface fullylit; pmesh o* fullylit;set antialiasdisplay on; set repaintWaitMs 1500;x=defaultdirectory; data &quot;directory @x&quot;;set MessageCallback &quot;jmolMessageHandler&quot;; show defaultdirectory;">
+<p style="background-color:yellow; color:black; width:400px;height:400px;text-align:center;vertical-align:middle;">
+You do not have Java applets enabled in your web browser, or your browser is blocking this applet.<br>
+Check the warning message from your browser and/or enable Java applets in<br>
+your web browser preferences, or install the Java Runtime Environment from <a href="http://www.java.com">www.java.com</a><br></p></object></div></td><td id="Jmol_Table_Jmol0_cell_0_1" style="display:none;"><div id="cntrl_jmol0" class="ui-tabs ui-widget-content ui-corner-all"><ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header"><li id="tab_size_jmol0" class="ui-tabs-selected ui-widget-content"><a class="control" href="javascript:void(switchJmolCntrl(jmolStatus,0,0))">Display</a></li><li id="tab_disp_jmol0" class="ui-state-default"><a class="control" href="javascript:void(switchJmolCntrl(jmolStatus,0,1))">Color &amp; Mesh</a></li><li id="tab_jmolStateDiv0" class="hidden"><a class="control" href="javascript:void(switchJmolCntrl(jmolStatus,0,2))">State</a></li></ul><div id="size_jmol0" class="ui-tabs-panel">3-D display size: <select title="Select a size" onchange="jmol_pulldown(this);"><option value="jmolNewAppletSize(100,0);"> Miniature (100px)</option><option value="jmolNewAppletSize(250,0);"> Small (250px)</option><option selected="" value="jmolNewAppletSize(400,0);"> Medium (400px)</option><option value="jmolNewAppletSize(600,0);"> Large (600px)</option></select><hr><button title="Move to own window" onclick="javascript:void(jmol_popup('0'))">Move to own window</button> arbitrarily resizable.<hr><button onclick="sleepJmol(0,jmolStatus)"> Get Static Image to Save (Sleep) </button> Right-click or Cmd-click on image to get download options.<hr><button title="Download View" onclick="javascript:void(jmolFileDownload(0))">Download this view</button> will require loading signed applet if not already done.<hr><input class="worksheet" value="spin on" onchange="jmol_spin(this.checked,0);" title="Enable/disable spin" type="checkbox">Spin on<br><input class="worksheet" checked="true" value="hi quality" onchange="jmol_antialias(this.checked,0);" title="Enable/disable smoothing" type="checkbox">High quality</div><div id="disp_jmol0" class="ui-tabs-panel ui-tabs-hide"><p><a class="link" href="javascript:void(getSurfacesFromJmol(0))">Click to request functions from Jmol</a> so that you can adjust function color and mesh.</p></div><div id="jmolStateDiv0" class="ui-tabs-panel ui-tabs-hide"><div style="overflow:scroll;max-height:400px;">set defaultdirectory="/home/_sage_/93596/cells/26/cells/26/sage0-size500-100344507.jmol.zip";<br>#a comment to guarrantee one line<br># Jmol state version 12.3.27  2012-05-25 01:29;<br>  # fullName = "jmolApplet0__384186638936419__";<br>  # documentBase = "http://www.sagenb.org/doc/live/prep/Symbolics-and-Basic-Plotting.html#id1";<br>  # codeBase = "http://www.sagenb.org/java/jmol/";<br><br><br>function _setWindowState() {<br># width 359;<br># height 358;<br>  stateVersion = 1203027;<br>  background [xffffff];<br>  axis1Color = "[xff0000]";<br>  axis2Color = "[x008000]";<br>  axis3Color = "[x0000ff]";<br>  set ambientPercent 45;<br>  set diffusePercent 84;<br>  set specular true;<br>  set specularPercent 22;<br>  set specularPower 40;<br>  set specularExponent 6;<br>  set zShadePower 3;<br>  statusReporting  = true;<br>}<br><br>function _setFileState() {<br><br>  zap;<br><br>}<br><br>function _setVariableState() {<br><br>   set defaultanglelabel "%VALUE %UNITS";<br>   set defaultcolorscheme "jmol";<br>   set defaultdistancelabel "%VALUE %UNITS";<br>   set defaultdrawarrowscale 0.5;<br>   set defaultlabelpdb "%m%r";<br>   set defaultlabelxyz "%a";<br>   set defaultlattice "{0 0 0}";<br>   set defaultloadfilter "";<br>   set defaultloadscript "";<br>   set defaulttorsionlabel "%VALUE %UNITS";<br>   set defaulttranslucent 0.5;<br>   set defaultvdw "Auto";<br>  set allowembeddedscripts true;<br>  set allowmoveatoms false;<br>  set allowrotateselected false;<br>  set appletproxy "";<br>  set applysymmetrytobonds false;<br>  set atompicking true;<br>  set atomtypes "";<br>  set autobond true;<br>  set autofps false;<br>  set axes window;<br>  set axesmode 0;<br>  set axesscale 2.0;<br>  set bondmodeor false;<br>  set bondradiusmilliangstroms 150;<br>  set bondtolerance 0.45;<br>  set cartoonbaseedges false;<br>  set cartoonrockets false;<br>  set chaincasesensitive false;<br>  set dataseparator "~~~";<br>  set defaultstructuredssp true;<br>  set delaymaximumms 0;<br>  set dipolescale 1.0;<br>  set disablepopupmenu false;<br>  set displaycellparameters true;<br>  set dotdensity 3;<br>  set dotscale 1;<br>  set dotsselectedonly false;<br>  set dotsurface true;<br>  set dragselected false;<br>  set drawhover false;<br>  set drawpicking false;<br>  set dsspcalculatehydrogenalways true;<br>  set dynamicmeasurements false;<br>  set ellipsoidarcs false;<br>  set ellipsoidaxes false;<br>  set ellipsoidaxisdiameter 0.02;<br>  set ellipsoidball true;<br>  set ellipsoiddotcount 200;<br>  set ellipsoiddots false;<br>  set ellipsoidfill false;<br>  set energyunits "kJ";<br>  set forceautobond false;<br>  set fractionalrelative false;<br>  set gestureswipefactor 1.0;<br>  set greyscalerendering false;<br>  set hbondsangleminimum 90.0;<br>  set hbondsbackbone false;<br>  set hbondsdistancemaximum 3.25;<br>  set hbondsrasmol true;<br>  set hbondssolid false;<br>  set helixstep 1;<br>  set helppath "http://chemapps.stolaf.edu/jmol/docs/index.htm";<br>  set hermitelevel 0;<br>  set hidenameinpopup false;<br>  set hidenavigationpoint false;<br>  set highresolution false;<br>  set historylevel 0;<br>  set hoverdelay 0.5;<br>  set imagestate true;<br>  set iskiosk false;<br>  set isosurfacekey false;<br>  set isosurfacepropertysmoothing true;<br>  set isosurfacepropertysmoothingpower 7;<br>  set justifymeasurements false;<br>  set loadatomdatatolerance 0.01;<br>  set measureallmodels false;<br>  set measurementlabels true;<br>  set messagestylechime false;<br>  set minbonddistance 0.4;<br>  set minimizationcriterion 0.001;<br>  set minimizationrefresh true;<br>  set minimizationsilent false;<br>  set minimizationsteps 100;<br>  set minpixelselradius 6;<br>  set monitorenergy false;<br>  set multiplebondradiusfactor 0.0;<br>  set multiplebondspacing -1.0;<br>  set navigatesurface false;<br>  set navigationperiodic false;<br>  set navigationspeed 5.0;<br>  set nmrurlformat "http://www.nmrdb.org/predictor?smiles=";<br>  set partialdots false;<br>  set pdbaddhydrogens false;<br>  set pdbgetheader false;<br>  set pdbsequential false;<br>  set percentvdwatom 23;<br>  set pickingspinrate 10;<br>  set picklabel "";<br>  set pointgroupdistancetolerance 0.2;<br>  set pointgrouplineartolerance 8.0;<br>  set propertyatomnumbercolumncount 0;<br>  set propertyatomnumberfield 0;<br>  set propertycolorscheme "roygb";<br>  set propertydatacolumncount 0;<br>  set propertydatafield 0;<br>  set quaternionframe "p";<br>  set rangeselected false;<br>  set ribbonaspectratio 16;<br>  set ribbonborder false;<br>  set rocketbarrels false;<br>  set saveproteinstructurestate true;<br>  set selectallmodels true;<br>  set selecthetero true;<br>  set selecthydrogen true;<br>  set sheetsmoothing 1.0;<br>  set showhiddenselectionhalos false;<br>  set showhydrogens true;<br>  set showkeystrokes true;<br>  set showmeasurements true;<br>  set showmultiplebonds true;<br>  set shownavigationpointalways false;<br>  set slabbyatom false;<br>  set slabbymolecule false;<br>  set smallmoleculemaxatoms 40000;<br>  set smartaromatic true;<br>  set solventprobe false;<br>  set solventproberadius 1.2;<br>  set ssbondsbackbone false;<br>  set stereodegrees -5;<br>  set strandcountformeshribbon 7;<br>  set strandcountforstrands 5;<br>  set strutdefaultradius 0.3;<br>  set strutlengthmaximum 7.0;<br>  set strutsmultiple false;<br>  set strutspacing 6;<br>  set testflag1 false;<br>  set testflag2 false;<br>  set testflag3 false;<br>  set testflag4 false;<br>  set tracealpha true;<br>  set usearcball false;<br>  set useminimizationthread true;<br>  set usenumberlocalization true;<br>  set vectorscale 1.0;<br>  set vectorsymmetry false;<br>  set vibrationscale 1.0;<br>  set waitformoveto true;<br>  set wireframerotation false;<br>  set zdepth 0;<br>  set zoomlarge true;<br>  set zslab 50;<br><br># label defaults;<br>  select none;<br>  color label none;<br>  background label none;<br>  set labelOffset 4 4;<br>  set labelAlignment left;<br>  set labelPointer off;<br>  font label 13.0 SansSerif Plain;<br><br>}<br><br>function _setModelState() {<br><br>  measures delete;<br>  select *; set measures nanometers;<br>  font measures 15.0 SansSerif Plain;<br><br>  boundBox off;<br>  font boundBox 14.0 SansSerif Plain;<br>  boundBox off;<br><br>  frank on;<br>  font frank 16.0 SansSerif Bold;<br>  select *;<br>  set fontScaling false;<br><br>}<br><br>function _setPerspectiveState() {<br>  set perspectiveModel 11;<br>  set scaleAngstromsPerInch 0.0;<br>  set perspectiveDepth true;<br>  set visualRange 5.0;<br>  set cameraDepth 3.0;<br>  boundbox corners {-10.0 -10.0 -10.0} {10.0 10.0 10.0} # volume = 8000.0;<br>  center {0.0 0.0 0.0};<br>  moveto -1.0 {0 0 1 0} 100.0 0.0 0.0 {0.0 0.0 0.0} 10.0 {0.0 0.0 0.0} 0.0 0.0 0.0;<br>  save orientation "default";<br>  moveto 0.0 {0 0 1 0} 100.0 0.0 0.0 {0.0 0.0 0.0} 10.0 {0.0 0.0 0.0} 0.0 0.0 0.0;;<br>  slab 100;depth 0;<br>  set slabRange 0.0;<br>  set spinX 0; set spinY 30; set spinZ 0; set spinFps 30;  set navX 0; set navY 0; set navZ 0; set navFps 10;<br>}<br><br>function _setSelectionState() {<br>  set hideNotSelected false;<br>}<br><br>function _setState() {<br>  initialize;<br>  set refreshing false;<br>  _setWindowState;<br>  _setFileState;<br>  _setVariableState;<br>  _setModelState;<br>  _setPerspectiveState;<br>  _setSelectionState;<br>  set refreshing true;<br>  set antialiasDisplay false;<br>  set antialiasTranslucent true;<br>  set antialiasImages true;<br>}<br><br>_setState;<br></div></div></div></td></tr></tbody></table></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_58">
+    
+    <div class="text_cell" id="cell_text_58">
+      </div>
+<p>There is a lot you can do with the 3D plots.</p>
+<ul class="simple">
+<li>Try rotating the plot above by clicking and dragging the mouse inside
+of the plot.</li>
+<li>Also, right-click (Control-click if you have only one mouse button)
+just to the right of the plot to see other options in a menu.</li>
+<li>If you have a wheel on your mouse or a multi-touch trackpad, you can
+scroll to zoom.</li>
+<li>You can also right-click to see other options, such as</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>spinning the plot,</li>
+<li>changing various colors,</li>
+<li>and even making the plot suitable for viewing through 3D glasses
+(under the “style”, then “stereographic” submenus),</li>
+</ul>
+</div></blockquote>
+<p>When using the <tt class="docutils literal"><span class="pre">plot3d</span></tt> command, the first variable range specified is
+plotted along the usual “x” axis, while the second range specified is
+plotted along the usual “y” axis.</p>
+<p>The plot above is somewhat crude because the function is not sampled
+enough times - this is fairly rapidly changing function, after all.  We
+can make the plot smoother by telling Sage to sample the function using
+a grid of 300 by 300 points.  Sage then samples the function at 90,000
+points!</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_27" class="cell_visible">
+    <div id="cell_27" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before27">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before27").bind("plainclick",function (e) {
+                    insert_new_cell_before(27);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_27">plot3d(g,(x,-5,5),(y,-5,5),plot_points=300)</textarea>
+                <input class="eval_button_active" id="eval_button27" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_27" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_27" onclick="cycle_cell_output_type(27);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_27">
+                            <div class="cell_output_wrap" id="cell_output_27">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_27">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_27">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_59">
+    
+    <div class="text_cell" id="cell_text_59">
+      </div>
+<p>As with 2D plots, we can superimpose 3D plots by adding them together.</p>
+<p>Note that in this one, we do not define the functions, but only use
+expressions (see the first set of topics in this tutorial), so it is
+wisest to define the variables ahead of time.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_28" class="cell_visible">
+    <div id="cell_28" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before28">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before28").bind("plainclick",function (e) {
+                    insert_new_cell_before(28);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_28">var('x,y')</textarea>
+                <input class="eval_button" id="eval_button28" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_28" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_28" onclick="cycle_cell_output_type(28);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_28">
+                            <div class="cell_output_wrap" id="cell_output_28">
+                                
+                                    <pre class="shrunk">(x, y)</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_28">
+                                    <pre class="shrunk">(x, y)</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_28">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_29" class="cell_visible">
+    <div id="cell_29" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before29">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before29").bind("plainclick",function (e) {
+                    insert_new_cell_before(29);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 82px;" class="cell_input" rows="4" cols="80" id="cell_input_29">b = 2.2
+P=plot3d(sin(x^2-y^2),(x,-b,b),(y,-b,b), opacity=.7)
+Q=plot3d(0, (x,-b,b), (y,-b,b), color='red')
+P+Q</textarea>
+                <input class="eval_button" id="eval_button29" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_29" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_29" onclick="cycle_cell_output_type(29);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_29">
+                            <div class="cell_output_wrap" id="cell_output_29">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_29">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_29">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_60">
+    
+    <div class="text_cell" id="cell_text_60">
+      </div>
+<p>As usual, only the last command shows up in the notebook, though clearly
+all are evaluated.  This also demonstrates that many of the same options
+work for 3D plots as for 2D plots.</p>
+<p>We close this tutorial with a cool plot that we define <em>implicitly</em> as a
+3D contour plot.</p>
+<div class="highlight-python">
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_30" class="cell_visible">
+    <div id="cell_30" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before30">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before30").bind("plainclick",function (e) {
+                    insert_new_cell_before(30);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_30">var('x,y,z')</textarea>
+                <input class="eval_button" id="eval_button30" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_30" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_30" onclick="cycle_cell_output_type(30);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_30">
+                            <div class="cell_output_wrap" id="cell_output_30">
+                                
+                                    <pre class="shrunk">(x, y, z)</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_30">
+                                    <pre class="shrunk">(x, y, z)</pre>
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_30">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_31" class="cell_visible">
+    <div id="cell_31" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before31">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before31").bind("plainclick",function (e) {
+                    insert_new_cell_before(31);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 101px;" class="cell_input" rows="6" cols="80" id="cell_input_31">T = golden_ratio
+p = 2 - (cos(x + T*y) + cos(x - T*y) + cos(y + T*z) + cos(y - T*z) + cos(z - T*x) + cos(z + T*x))
+r = 4.78
+implicit_plot3d(p, (x, -r, r), (y, -r, r), (z, -r, r), plot_points=50, color='yellow')</textarea>
+                <input class="eval_button" id="eval_button31" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_31" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_31" onclick="cycle_cell_output_type(31);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_31">
+                            <div class="cell_output_wrap" id="cell_output_31">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_31">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_31">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_61">
+    
+    <div class="text_cell" id="cell_text_61">
+      </div>
+<p>The next tutorial will use all that you have learned about Sage basics,
+symbolics, and plotting in a specific mathematical venue - the calculus
+sequence!</p>
+</span></div>
+</span></div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference internal" href="#">Tutorial for Symbolics and Plotting</a><ul>
+<li><a class="reference internal" href="#symbolic-expressions">Symbolic Expressions</a></li>
+<li><a class="reference internal" href="#basic-2d-plotting">Basic 2D Plotting</a></li>
+<li><a class="reference internal" href="#basic-3d-plotting">Basic 3D Plotting</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="Intro-Tutorial.html" title="previous chapter">Introductory Sage Tutorial</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="Calculus.html" title="next chapter">Tutorial for Calculus</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/Symbolics-and-Basic-Plotting.txt" rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="">
+            <h3>Quick search</h3>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index">index</a></li>
+        <li class="right">
+          <a href="py-modindex.html" title="Python Module Index">modules</a> |</li>
+        <li class="right">
+          <a href="Calculus.html" title="Tutorial for Calculus">next</a> |</li>
+        <li class="right">
+          <a href="Intro-Tutorial.html" title="Introductory Sage Tutorial">previous</a> |</li>
+  
+    
+      <a href="../index.html"><img src="_static/sagelogo.png" style="vertical-align: middle" title="Sage Logo"></a>
+    
+  
+  
+        <li><a href="index.html">PREP Tutorials v5.11.rc1</a> »</li>
+ 
+      </ul>
+    </div>
+    
+    <div class="footer">
+        © Copyright 2012, Rob Beezer, Karl-Dieter Crisman, and Jason Grout.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+    <script type="text/javascript">
+/*global jQuery, window */
+/* Sphinx sidebar toggle.  Putting this code at the end of the body
+ * enables the toggle for the live, static, and offline docs.  Note:
+ * sage.misc.html.math_parse() eats jQuery's dollar-sign shortcut. */
+var jq = jQuery;  
+jq(document).ready(function () {
+    var bar, bod, bg, fg, key, tog, wid_old, wid_new, resize, get_state, set_state;
+    bod = jq('div.bodywrapper');
+    bar = jq('div.sphinxsidebar');
+    tog = jq('<div class="sphinxsidebartoggle"></div>');
+    
+    /* Delayed resize helper.  Not perfect but good enough. */
+    resize = function () {
+        setTimeout(function () {
+            tog.height(bod.height());
+        }, 100);
+    };
+    jq(window).resize(function () {
+        resize();
+    });
+    
+    /* Setup and add the toggle. See Sphinx v0.5.1 default.css. */
+    fg = jq('div.sphinxsidebar p a').css('color') || 'rgb(152, 219, 204)';
+    bg = jq('div.document').css('background-color') || 'rgb(28, 78, 99)';
+    wid_old = '230px';
+    wid_new = '5px';
+    tog.css('background-color', bg)
+        .css('border-width', '0px')
+        .css('border-right', wid_new + ' ridge ' + bg)
+        .css('cursor', 'pointer')
+        .css('position', 'absolute')
+        .css('left', '-' + wid_new)
+        .css('top', '0px')
+        .css('width', wid_new);
+    bod.css('position', 'relative');
+    bod.prepend(tog);
+    resize();
+    
+    /* Cookie helpers. */
+    key = 'sphinxsidebar=';
+    set_state = function (s) {
+        var date = new Date();
+        /* Expiry in 7 days. */
+        date.setTime(date.getTime() + (7 * 24 * 3600 * 1000));
+        document.cookie = key + encodeURIComponent(s) + '; expires=' +
+            date.toUTCString() + '; path=/';
+    };
+    get_state = function () {
+        var i, c, crumbs = document.cookie.split(';');
+        for (i = 0; i < crumbs.length; i += 1) {
+            c = crumbs[i].replace(/^\s+/, '');
+            if (c.indexOf(key) === 0) {
+                return decodeURIComponent(c.substring(key.length, c.length));
+            }
+        }
+        return null;
+    };
+    
+    /* Event handlers. */
+    tog.mouseover(function (ev) {
+        tog.css('border-right-color', fg);
+    }).mouseout(function (ev) {
+        tog.css('border-right-color', bg);
+    }).click(function (ev) {
+        if (bod.hasClass('wide')) {
+            bod.removeClass('wide');
+            bod.css('margin-left', wid_old);
+            bar.css('width', wid_old);
+            bar.show();
+            set_state('visible');
+        } else {
+            set_state('hidden');
+            bar.hide();
+            bar.css('width', '0px');
+            bod.css('margin-left', wid_new);
+            bod.addClass('wide');
+        }
+        resize();
+    });
+    
+    /* Hide the normally visible sidebar? */
+    if (get_state() === 'hidden') {
+        tog.trigger('click');
+    } else {
+        set_state('visible');
+    }
+});
+    </script>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_62" class="cell_visible">
+    <div id="cell_62" class="cell_not_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before62">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before62").bind("plainclick",function (e) {
+                    insert_new_cell_before(62);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_62"></textarea>
+                <input class="eval_button" id="eval_button62" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_62" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_62" onclick="cycle_cell_output_type(62);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_62">
+                            <div class="cell_output_wrap" id="cell_output_62">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_62">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_62">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+</div>
+    <div class="insert_new_cell" id="insert_last_cell"></div>  
+    <script type="text/javascript">
+        state_number = 0;
+        cell_id_list = [32, 0, 33, 1, 2, 34, 3, 35, 4, 36, 5, 37, 6, 38, 7, 39, 8, 40, 9, 41, 10, 42, 11, 43, 12, 44, 13, 45, 14, 46, 15, 47, 16, 48, 17, 49, 18, 50, 19, 51, 20, 52, 21, 53, 22, 54, 23, 55, 24, 56, 25, 57, 26, 58, 27, 59, 28, 29, 60, 30, 31, 61, 62];
+        queue_id_list = [];
+        
+        worksheet_locked = false;
+	    
+
+        $(document).ready(function () {
+            if (worksheet_name === "Untitled") {
+                rename_worksheet();
+            }
+         });
+
+        $("#insert_last_cell").bind("plainclick", function (e) {
+            insert_new_cell_after(cell_id_list[cell_id_list.length - 1]);
+        });
+    
+        
+    </script>
+</div>
+
+
+        </div>
+        
+    
+<div style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px none; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-family: 'MathJax_Main',sans-serif;">?</div></body></html>
