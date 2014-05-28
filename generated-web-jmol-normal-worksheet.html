@@ -1,0 +1,558 @@
+<html lang="en"><head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>JMol live help issue (Sage)</title>
+        
+	
+        
+        <link type="text/css" rel="stylesheet" href="/css/main.css">
+        
+        
+        <script src="http://www.google-analytics.com/ga.js" async="" type="text/javascript"></script><script type="text/javascript" src="/javascript/jquery/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="/javascript/dynamic/localization.js"></script>
+        <script type="text/javascript" src="/javascript/json/json2.min.js"></script>
+        
+<!-- jQuery UI - interacts, widgets, drag-drop, etc. -->
+<link rel="stylesheet" href="/javascript/jqueryui/css/sage/jquery-ui-1.8.11.custom.css">
+<script type="text/javascript" src="/javascript/jqueryui/js/jquery-ui-1.8.11.custom.min.js"></script>
+
+<!-- jQuery plugins - color pickers, shift-click, AJAX forms, IE fixes, notifications -->
+<link rel="stylesheet" href="/javascript/jquery/plugins/farbtastic/farbtastic.css" type="text/css">
+<script type="text/javascript" src="/javascript/jquery/plugins/farbtastic/farbtastic.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery/plugins/extendedclick/jquery.event.extendedclick.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery/plugins/form/jquery.form.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery/plugins/jquery.bgiframe.min.js"></script>
+<link rel="stylesheet" href="/javascript/jquery/plugins/jpicker/css/jPicker-1.1.6.min.css" type="text/css">
+<script type="text/javascript" src="/javascript/jquery/plugins/jpicker/jpicker-1.1.6.min.js"></script>
+<link rel="stylesheet" media="screen" type="text/css" href="/javascript/jquery/plugins/colorpicker/css/colorpicker.css">
+<script type="text/javascript" src="/javascript/jquery/plugins/colorpicker/js/colorpicker.min.js"></script>
+<script type="text/javascript" src="/javascript/jquery/plugins/achtung/ui.achtung-mod.min.js"></script>
+
+
+<script type="text/javascript" src="/javascript/sage/js/notebook_lib.js"></script>
+<script type="text/javascript" src="/javascript/dynamic/notebook_dynamic.js"></script>
+
+
+
+    <!-- Work around OSX Lion STIX fonts bug: see http://groups.google.com/group/mathjax-users/browse_thread/thread/42ceab8dbf286740,
+         https://github.com/mathjax/MathJax/issues/178, and https://github.com/mathjax/MathJax/issues/152 -->
+    <script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Register.LoadHook("[MathJax]/jax/output/HTML-CSS/fonts/STIX/fontdata.js", function () {
+      var HTMLCSS = MathJax.OutputJax["HTML-CSS"];
+    
+      MathJax.Hub.Browser.Select({
+        Safari: function (browser) {
+          browser.STIXfontBug = browser.versionAtLeast("5.1") && browser.isMac;
+        },
+        Chrome: function (browser) {
+          var match = navigator.appVersion.match(/AppleWebKit\/(\d+)/);
+          if (match && parseInt(match[1]) > 534) {browser.STIXfontBug = true}
+        }
+      });
+      if (MathJax.Hub.Browser.STIXfontBug) {
+        HTMLCSS.FONTDATA.FONTS["STIXGeneral"].family = "STIXGeneral-Regular";
+        HTMLCSS.FONTDATA.FONTS["STIXGeneral-italic"].family = "STIXGeneral-Italic";
+        delete HTMLCSS.FONTDATA.FONTS["STIXGeneral-italic"].style;
+      }
+    });
+    </script>
+
+<script type="text/javascript" src="/javascript/mathjax/MathJax.js?config=TeX-AMS_HTML-full,../../dynamic/mathjax_sage.js"></script>
+
+
+<!-- Sage3d - accelerated 3D graphics -->
+<script type="text/javascript" src="/javascript/sage3d/sage3d.js"></script>
+
+<!-- Jmol - embedded 3D graphics -->
+<script type="text/javascript" src="/java/jmol/appletweb/Jmol.js"></script>
+<!-- This must stay in head -->
+<script>jmolInitialize("/java/jmol");jmolSetCallback("menuFile","/java/jmol/appletweb/SageMenu.mnu");</script>
+
+
+<!-- TinyMCE and jEditable - in-place editing of text cells -->
+<script type="text/javascript" src="/javascript/tiny_mce/tiny_mce.js"></script><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-family: serif; font-size: 85%; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuTitle {background-color: #CCCCCC; margin: -1px -1px 1px -1px; text-align: center; font-style: italic; font-size: 80%; color: #444444; padding: 2px 0; overflow: hidden}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+</style>
+<script type="text/javascript" src="/javascript/jquery/plugins/jeditable/jquery.jeditable.mini.js" charset="utf-8"></script>
+<script type="text/javascript" src="/javascript/sage/js/tinymce.js"></script>
+<script type="text/javascript" src="/javascript/tiny_mce/plugins/media/js/embed.js"></script>
+
+
+<script type="text/javascript">user_name= "name_of_user";</script>
+
+<script type="text/javascript">
+    worksheet_filename = "name_of_user/31";
+    worksheet_name = 'Untitled';
+    
+        server_ping_while_alive();
+    
+</script>
+
+
+
+        
+        
+        
+        <script type="text/javascript" src="/javascript/sage/js/master.js"></script>
+        
+        <script type="text/javascript">
+
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-24214040-1']);
+          _gaq.push(['_setDomainName', 'sagenb.org']);
+          _gaq.push(['_trackPageview']);
+          _gaq.push(['_trackPageLoadTime']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+
+        </script>
+
+    <style type="text/css">#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+.MathJax .mo, .MathJax .mi {color: inherit ! important}
+</style><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block; width: 100%}
+.MathJax .merror {color: black; border: 1px solid; padding: 1px 3px; font-family: serif; font-size: 80%; vertical-align: ; text-align: left}
+.MathJax_Preview {color: #888888}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-family: serif; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; border: 0; padding: 0; margin: 0}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0 !important; padding: 0 !important; margin: 0 !important; vertical-align: 0 !important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+.MathJax nobr {white-space: nowrap}
+.MathJax img {display: inline ! important}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax .MathJax_HitBox {cursor: text}
+#MathJax_Tooltip * {filter: none; background: transparent}
+@font-face {font-family: MathJax_Main; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf')}
+@font-face {font-family: MathJax_Main; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf'); font-weight: bold}
+@font-face {font-family: MathJax_Main; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf'); font-style: italic}
+@font-face {font-family: MathJax_Math; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf'); font-style: italic}
+@font-face {font-family: MathJax_Caligraphic; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf')}
+@font-face {font-family: MathJax_Size1; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf')}
+@font-face {font-family: MathJax_Size2; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf')}
+@font-face {font-family: MathJax_Size3; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf')}
+@font-face {font-family: MathJax_Size4; src: url('http://www.sagenb.org/javascript/mathjax/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf')}
+#MathJax_getScales {font-family: MathJax_Main,MathJax_Size1,MathJax_AMS}
+.MathJax .math span {font-family: MathJax_Main,MathJax_Size1,MathJax_AMS}
+</style></head>
+    <body id="user-worksheet-page" class="active-worksheet"><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px none; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div style="display: none;" id="MathJax_Message"></div>
+        
+        <div id="header">
+            
+            <div id="top-bar">
+                <div id="banner">
+                    <a class="banner" href="/">
+                        <img src="/images/sagenb.png" alt="Sage" align="top"><span>The Sage Notebook</span>
+                    </a>
+                    <span class="ping" id="ping">Searching for Sage server...</span>
+                    <div class="version">
+                        Version 5.11
+                    </div>
+                </div>
+                
+<div id="main-controls" class="controls">
+    <ul>
+        <li class="username">name_of_user</li>
+        
+        <li><a id="toggle-link" title="Toggle the top bar" onclick="$('#worksheet-bar').toggle()">Toggle</a></li>
+        <li><a title="Back to your personal worksheet list" href="/home/name_of_user">Home</a></li>
+        
+        <li><a title="Browse the published worksheets" href="/pub">Published</a></li>
+        <li><a title="View a log of recent computations" href="#" onclick="history_window()">Log</a></li>
+        
+        <li><a title="Change account settings including password" href="/settings">Settings</a></li>
+        <li><a title="Documentation" href="#" onclick="help()">Help</a></li>
+        <li><a title="Report a problem or submit a bug to improve Sage" href="#" onclick="bugreport()">Report a Problem</a></li>
+        <li><a title="Log out of the Sage notebook" href="/logout">Sign out</a></li>
+        
+    </ul>
+</div>
+
+            </div>
+            
+        </div>
+        <div id="main">
+            
+
+
+<div id="worksheet-bar">
+    <div class="worksheet_title">
+        <a id="worksheet_title" class="worksheet_title" onclick="rename_worksheet(); return false;" title="Click to rename this worksheet">JMol live help issue</a>
+        <div><span class="lastedit">last edited 
+<span class="lastedit">May 27, 2014 3:23:44 PM by name_of_user</span></span></div>
+        
+    </div>
+    <div id="save-discard-buttons">
+        
+        <button name="button_save" title="Save changes" onclick="save_worksheet();">Save</button><button title="Save changes and close window" onclick="save_worksheet_and_close();" name="button_save">Save &amp; quit</button><button title="Discard changes to this worksheet" onclick="worksheet_discard();">Discard &amp; quit</button>
+        
+    </div>
+
+    <div id="worksheet-menu">
+    
+        <select class="worksheet" onchange="go_option(this);" id="file-menu">
+            <option title="Select a file related function" value="" selected="">File...</option>
+            <option title="Load a new worksheet stored in a file" value="upload_worksheet_button();">Load worksheet from a file...</option>
+            <option title="Create a new worksheet" value="new_worksheet();">New worksheet</option>
+            <option title="Save this worksheet to an sws file" value="download_worksheet();">Save worksheet to a file...</option>
+            <option title="Print this worksheet" value="print_worksheet();">Print</option>
+            <option title="Rename this worksheet" value="rename_worksheet();">Rename worksheet</option>
+            <option title="Copy this worksheet" value="copy_worksheet();">Copy worksheet</option>
+            <option title="Move this worksheet to the trash" value="delete_worksheet('name_of_user/31');">Delete worksheet</option>
+        </select>
+
+        <select class="worksheet" onchange="go_option(this);" id="action-menu">
+            <option title="Select a worksheet function" value="" selected="">Action...</option>
+            <option title="Interrupt currently running calculations, if possible" value="interrupt();">Interrupt</option>
+            <option title="Restart the worksheet process" value="restart_sage();">Restart worksheet</option>
+            <option title="Quit the worksheet process" value="save_worksheet_and_close();">Save and quit worksheet</option> 
+            <option value="">---------------------------</option>
+            <option title="Evaluate all input cells in the worksheet" value="evaluate_all();">Evaluate All</option>
+            <option title="Hide all output" value="hide_all();">Hide All Output</option>
+            <option title="Show all output" value="show_all();">Show All Output</option>
+            <option title="Delete all output" value="delete_all_output();">Delete All Output</option>
+            <option value="">---------------------------</option>
+            <option title="Switch to single-cell mode" value="slide_mode();">One Cell Mode</option>
+            <option title="Switch to multi-cell mode" value="cell_mode();">Multi Cell Mode</option> 
+        </select>
+        <select class="worksheet" onchange="handle_data_menu(this);" id="data-menu">
+            <option title="Select an attached file" value="" selected="">Data...</option>
+            <option title="Upload or create a data file in a wide range of formats" value="__upload_data_file__">Upload or create file...</option>
+            <option value="">--------------------</option>
+            
+        </select>
+
+        
+        <select onchange="go_system_select(this, 0);" class="worksheet" id="systems-menu">
+            
+            <option title="Evaluate all input cells using sage" selected="" value="sage">
+                sage
+            </option>
+            
+            <option title="Evaluate all input cells using gap" value="gap">
+                gap
+            </option>
+            
+            <option title="Evaluate all input cells using gp" value="gp">
+                gp
+            </option>
+            
+            <option title="Evaluate all input cells using html" value="html">
+                html
+            </option>
+            
+            <option title="Evaluate all input cells using latex" value="latex">
+                latex
+            </option>
+            
+            <option title="Evaluate all input cells using maxima" value="maxima">
+                maxima
+            </option>
+            
+            <option title="Evaluate all input cells using python" value="python">
+                python
+            </option>
+            
+            <option title="Evaluate all input cells using r" value="r">
+                r
+            </option>
+            
+            <option title="Evaluate all input cells using sh" value="sh">
+                sh
+            </option>
+            
+            <option title="Evaluate all input cells using singular" value="singular">
+                singular
+            </option>
+            
+            <option title="Evaluate all input cells using axiom" value="axiom">
+                axiom (optional)
+            </option>
+            
+            <option title="Evaluate all input cells using fricas" value="fricas">
+                fricas (optional)
+            </option>
+            
+            <option title="Evaluate all input cells using kash" value="kash">
+                kash (optional)
+            </option>
+            
+            <option title="Evaluate all input cells using macaulay2" value="macaulay2">
+                macaulay2 (optional)
+            </option>
+            
+            <option title="Evaluate all input cells using magma" value="magma">
+                magma (optional)
+            </option>
+            
+            <option title="Evaluate all input cells using maple" value="maple">
+                maple (optional)
+            </option>
+            
+            <option title="Evaluate all input cells using mathematica" value="mathematica">
+                mathematica (optional)
+            </option>
+            
+            <option title="Evaluate all input cells using matlab" value="matlab">
+                matlab (optional)
+            </option>
+            
+            <option title="Evaluate all input cells using mupad" value="mupad">
+                mupad (optional)
+            </option>
+            
+            <option title="Evaluate all input cells using octave" value="octave">
+                octave (optional)
+            </option>
+            
+            <option title="Evaluate all input cells using scilab" value="scilab">
+                scilab (optional)
+            </option>
+            
+        </select>    
+        <input title="Enable/disable pretty_printing" onchange="pretty_print_check(this.checked);" class="worksheet" value="pretty_print" type="checkbox">&nbsp;Typeset
+        
+     
+    </div>
+    <div id="share-publish-buttons">
+        
+        
+        <a title="Print this worksheet" class="control" onclick="print_worksheet()">Print</a>
+        <a class="
+        control
+        " title="Interactively use this worksheet" href="./">Worksheet</a>        
+        <a class="
+        control
+        " title="Edit text version of this worksheet" href="edit">Edit</a>
+        <a class="
+        control
+        " title="View plain text version of this worksheet" href="text">Text</a>
+        <a class="
+        control
+        " title="View changes to this worksheet over time" href="revisions">Revisions</a>
+        <a class="
+        control
+        " title="Let others edit this worksheet" href="share">Share</a>
+        <a class="
+        control
+        " title="Make this worksheet publicly viewable" href="publish">Publish</a>
+        
+    </div>
+</div>
+<div class="hidden" id="slide_controls">
+    <div class="slideshow_control">
+        <a class="slide_arrow" onclick="slide_next()">&gt;</a>
+        <a class="slide_arrow" onclick="slide_last()">&gt;&gt;</a> <span class="vbar"></span>
+        <a class="cell_mode" onclick="cell_mode()">Exit</a>
+    </div>
+    <div class="slideshow_progress" id="slideshow_progress" onclick="slide_next()">
+        <div class="slideshow_progress_bar" id="slideshow_progress_bar">&nbsp;</div>
+        <div class="slideshow_progress_text" id="slideshow_progress_text">&nbsp;</div>
+    </div>
+    <div class="slideshow_control">
+        <a class="slide_arrow" onclick="slide_first()">&lt;&lt;</a>
+        <a class="slide_arrow" onclick="slide_prev()">&lt;</a>
+    </div>
+</div>
+
+
+<div class="worksheet" id="worksheet">
+    
+
+
+
+    
+
+
+<div style="width: 1072px;" class="cell_input_active" id="cell_resizer">&nbsp;</div>
+<div class="worksheet_cell_list" id="worksheet_cell_list">
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_1" class="cell_visible">
+    <div id="cell_1" class="cell_evaluated">
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before1">
+            </div>
+            <script type="text/javascript">
+                $("#insert_new_cell_before1").bind("plainclick",function (e) {
+                    insert_new_cell_before(1);
+                });
+                
+                $("#insert_new_cell_before1").bind("shiftclick",function (e) {
+                   insert_new_text_cell_before(1);
+                });
+                
+            </script>
+        
+            
+                
+            
+            
+                <textarea style="height: 44px;" class="cell_input" rows="1" cols="80" id="cell_input_1"></textarea>
+                <input class="eval_button" id="eval_button1" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_1" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_1" onclick="cycle_cell_output_type(1);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_1">
+                            <div class="cell_output_wrap" id="cell_output_1"> </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_1"> </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_1"><div id="jmol_static1" style="display: none;"></div><table id="Jmol_Table_Jmol0"><tbody><tr><td id="Jmol_Table_Jmol0_cell_0_0"><div id="Adv_but_Jmol0"><button onclick="javascript:void(toggling_button('Jmol_Table_Jmol0_cell_0_1'))">Toggle Advanced Controls</button><button onclick="jmol_help()">Help for Jmol 3-D viewer</button></div><div id="Jmol0"><object name="jmolApplet0" id="jmolApplet0" type="application/x-java-applet" height="400" width="400">
+  <param name="syncId" value="074079379919131">
+  <param name="progressbar" value="true">
+  <param name="progresscolor" value="blue">
+  <param name="boxbgcolor" value="white">
+  <param name="boxfgcolor" value="black">
+  <param name="boxmessage" value="Downloading JmolApplet ...">
+  <param name="menuFile" value="/java/jmol/appletweb/SageMenu.mnu">
+  <param name="archive" value="JmolApplet0.jar">
+  <param name="mayscript" value="true">
+  <param name="codebase" value="/java/jmol">
+  <param name="code" value="JmolApplet">
+  <param name="java_arguments" value="-Xmx512m">
+  <param name="script" value="set defaultdirectory &quot;/home/name_of_user/31/cells/1/sage0-size500.jmol&quot;;script &quot;/home/name_of_user/31/cells/1/sage0-size500.jmol?1401229459&quot;; isosurface fullylit; pmesh o* fullylit;set antialiasdisplay on; set repaintWaitMs 1500;x=defaultdirectory; data &quot;directory @x&quot;;set MessageCallback &quot;jmolMessageHandler&quot;; show defaultdirectory;">
+<p style="background-color:yellow; color:black; width:400px;height:400px;text-align:center;vertical-align:middle;">
+You do not have Java applets enabled in your web browser, or your browser is blocking this applet.<br>
+Check the warning message from your browser and/or enable Java applets in<br>
+your web browser preferences, or install the Java Runtime Environment from <a href="http://www.java.com">www.java.com</a><br></p></object></div></td><td id="Jmol_Table_Jmol0_cell_0_1" style="display:none;"><div id="cntrl_jmol0" class="ui-tabs ui-widget-content ui-corner-all"><ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header"><li id="tab_size_jmol0" class="ui-tabs-selected ui-widget-content"><a class="control" href="javascript:void(switchJmolCntrl(jmolStatus,0,0))">Display</a></li><li id="tab_disp_jmol0" class="ui-state-default"><a class="control" href="javascript:void(switchJmolCntrl(jmolStatus,0,1))">Color &amp; Mesh</a></li><li id="tab_jmolStateDiv0" class="hidden"><a class="control" href="javascript:void(switchJmolCntrl(jmolStatus,0,2))">State</a></li></ul><div id="size_jmol0" class="ui-tabs-panel">3-D display size: <select title="Select a size" onchange="jmol_pulldown(this);"><option value="jmolNewAppletSize(100,0);"> Miniature (100px)</option><option value="jmolNewAppletSize(250,0);"> Small (250px)</option><option selected="" value="jmolNewAppletSize(400,0);"> Medium (400px)</option><option value="jmolNewAppletSize(600,0);"> Large (600px)</option></select><hr><button title="Move to own window" onclick="javascript:void(jmol_popup('0'))">Move to own window</button> arbitrarily resizable.<hr><button onclick="sleepJmol(0,jmolStatus)"> Get Static Image to Save (Sleep) </button> Right-click or Cmd-click on image to get download options.<hr><button title="Download View" onclick="javascript:void(jmolFileDownload(0))">Download this view</button> will require loading signed applet if not already done.<hr><input class="worksheet" value="spin on" onchange="jmol_spin(this.checked,0);" title="Enable/disable spin" type="checkbox">Spin on<br><input class="worksheet" checked="true" value="hi quality" onchange="jmol_antialias(this.checked,0);" title="Enable/disable smoothing" type="checkbox">High quality</div><div id="disp_jmol0" class="ui-tabs-panel ui-tabs-hide"><p><a class="link" href="javascript:void(getSurfacesFromJmol(0))">Click to request functions from Jmol</a> so that you can adjust function color and mesh.</p></div><div id="jmolStateDiv0" class="ui-tabs-panel ui-tabs-hide"><div style="overflow:scroll;max-height:400px;">set defaultdirectory="cells/1/sage0-size500-56856869.jmol.zip";<br>#a comment to guarrantee one line<br># Jmol state version 12.3.27  2012-05-25 01:29;<br>  # fullName = "jmolApplet0__074079379919131__";<br>  # documentBase = "http://www.sagenb.org/home/name_of_user/31/";<br>  # codeBase = "http://www.sagenb.org/java/jmol/";<br><br><br>function _setWindowState() {<br># width 358;<br># height 358;<br>  stateVersion = 1203027;<br>  background [xffffff];<br>  axis1Color = "[xff0000]";<br>  axis2Color = "[x008000]";<br>  axis3Color = "[x0000ff]";<br>  set ambientPercent 45;<br>  set diffusePercent 84;<br>  set specular true;<br>  set specularPercent 22;<br>  set specularPower 40;<br>  set specularExponent 6;<br>  set zShadePower 3;<br>  statusReporting  = true;<br>}<br><br>function _setFileState() {<br><br>  set allowEmbeddedScripts false;<br>  set appendNew true;<br>  set appletProxy "";<br>  set applySymmetryToBonds false;<br>  set autoBond true;<br>  set bondRadiusMilliAngstroms 150;<br>  set bondTolerance 0.45;<br>  set defaultLattice {0.0 0.0 0.0};<br>  set defaultLoadFilter "";<br>  set defaultLoadScript "";<br>  set defaultStructureDssp true;<br>  set defaultVDW Auto;<br>  set forceAutoBond false;<br>  #set defaultDirectory "cells/1/sage0-size500-56856869.jmol.zip";<br>  #set loadFormat "http://www.rcsb.org/pdb/files/%FILE.pdb.gz";<br>  #set loadLigandFormat "http://www.rcsb.org/pdb/files/ligand/%FILE.cif";<br>  #set smilesUrlFormat "http://cactus.nci.nih.gov/chemical/structure/%FILE/file?format=sdf&amp;get3d=True";<br>  #set nihResolverFormat "http://cactus.nci.nih.gov/chemical/structure/%FILE";<br>  #set pubChemFormat "http://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/%FILE/SDF?record_type=3d";<br>  #set edsUrlFormat "http://eds.bmc.uu.se/eds/dfs/%LC13/%LCFILE/%LCFILE.omap";<br>  #set edsUrlCutoff "load('http://eds.bmc.uu.se/eds/dfs/%LC13/%LCFILE/%LCFILE.sfdat').lines.find('MAP_SIGMA').split(' ')[2]";<br>  set legacyAutoBonding false;<br>  set minBondDistance 0.4;<br>  set minimizationCriterion  0.001;<br>  set minimizationSteps  100;<br>  set pdbAddHydrogens false;<br>  set pdbGetHeader false;<br>  set pdbSequential false;<br>  set percentVdwAtom 23;<br>  set smallMoleculeMaxAtoms 40000;<br>  set smartAromatic true;<br>  zap;load /*data*/ data "model list"|10|empty|Xx -6.0 -7.0 -3.0|Xx 0.0 -7.0 -3.0|Xx 6.0 -7.0 -3.0|Xx 7.0 -6.0 -3.0|Xx 7.0 0.0 -3.0|Xx 7.0 6.0 -3.0|Xx -7.0 -6.0 -3.0|Xx -7.0 -6.0 0.0|Xx -7.0 -6.0 3.0|Xx 5.5 5.5 5.5| end "model list" ;<br><br>}<br><br>function _setVariableState() {<br><br>   set defaultanglelabel "%VALUE %UNITS";<br>   set defaultcolorscheme "jmol";<br>   set defaultdistancelabel "%VALUE %UNITS";<br>   set defaultdrawarrowscale 0.5;<br>   set defaultlabelpdb "%m%r";<br>   set defaultlabelxyz "%a";<br>   set defaultlattice "{0 0 0}";<br>   set defaultloadfilter "";<br>   set defaultloadscript "";<br>   set defaulttorsionlabel "%VALUE %UNITS";<br>   set defaulttranslucent 0.5;<br>   set defaultvdw "Auto";<br>  set allowembeddedscripts true;<br>  set allowmoveatoms false;<br>  set allowrotateselected false;<br>  set appletproxy "";<br>  set applysymmetrytobonds false;<br>  set atompicking true;<br>  set atomtypes "";<br>  set autobond true;<br>  set autofps false;<br>  set axes window;<br>  set axesmode 0;<br>  set axesscale 2.0;<br>  set bondmodeor false;<br>  set bondradiusmilliangstroms 150;<br>  set bondtolerance 0.45;<br>  set cartoonbaseedges false;<br>  set cartoonrockets false;<br>  set chaincasesensitive false;<br>  set dataseparator "~~~";<br>  set defaultstructuredssp true;<br>  set delaymaximumms 0;<br>  set dipolescale 1.0;<br>  set disablepopupmenu false;<br>  set displaycellparameters true;<br>  set dotdensity 3;<br>  set dotscale 1;<br>  set dotsselectedonly false;<br>  set dotsurface true;<br>  set dragselected false;<br>  set drawhover false;<br>  set drawpicking false;<br>  set dsspcalculatehydrogenalways true;<br>  set dynamicmeasurements false;<br>  set ellipsoidarcs false;<br>  set ellipsoidaxes false;<br>  set ellipsoidaxisdiameter 0.02;<br>  set ellipsoidball true;<br>  set ellipsoiddotcount 200;<br>  set ellipsoiddots false;<br>  set ellipsoidfill false;<br>  set energyunits "kJ";<br>  set forceautobond false;<br>  set fractionalrelative false;<br>  set gestureswipefactor 1.0;<br>  set greyscalerendering false;<br>  set hbondsangleminimum 90.0;<br>  set hbondsbackbone false;<br>  set hbondsdistancemaximum 3.25;<br>  set hbondsrasmol true;<br>  set hbondssolid false;<br>  set helixstep 1;<br>  set helppath "http://chemapps.stolaf.edu/jmol/docs/index.htm";<br>  set hermitelevel 0;<br>  set hidenameinpopup false;<br>  set hidenavigationpoint false;<br>  set highresolution false;<br>  set historylevel 0;<br>  set hoverdelay 0.5;<br>  set imagestate true;<br>  set iskiosk false;<br>  set isosurfacekey false;<br>  set isosurfacepropertysmoothing true;<br>  set isosurfacepropertysmoothingpower 7;<br>  set justifymeasurements false;<br>  set loadatomdatatolerance 0.01;<br>  set measureallmodels false;<br>  set measurementlabels true;<br>  set messagestylechime false;<br>  set minbonddistance 0.4;<br>  set minimizationcriterion 0.001;<br>  set minimizationrefresh true;<br>  set minimizationsilent false;<br>  set minimizationsteps 100;<br>  set minpixelselradius 6;<br>  set monitorenergy false;<br>  set multiplebondradiusfactor 0.0;<br>  set multiplebondspacing -1.0;<br>  set navigatesurface false;<br>  set navigationperiodic false;<br>  set navigationspeed 5.0;<br>  set nmrurlformat "http://www.nmrdb.org/predictor?smiles=";<br>  set partialdots false;<br>  set pdbaddhydrogens false;<br>  set pdbgetheader false;<br>  set pdbsequential false;<br>  set percentvdwatom 23;<br>  set pickingspinrate 10;<br>  set picklabel "";<br>  set pointgroupdistancetolerance 0.2;<br>  set pointgrouplineartolerance 8.0;<br>  set propertyatomnumbercolumncount 0;<br>  set propertyatomnumberfield 0;<br>  set propertycolorscheme "roygb";<br>  set propertydatacolumncount 0;<br>  set propertydatafield 0;<br>  set quaternionframe "p";<br>  set rangeselected false;<br>  set ribbonaspectratio 16;<br>  set ribbonborder false;<br>  set rocketbarrels false;<br>  set saveproteinstructurestate true;<br>  set selectallmodels true;<br>  set selecthetero true;<br>  set selecthydrogen true;<br>  set sheetsmoothing 1.0;<br>  set showhiddenselectionhalos false;<br>  set showhydrogens true;<br>  set showkeystrokes true;<br>  set showmeasurements true;<br>  set showmultiplebonds true;<br>  set shownavigationpointalways false;<br>  set slabbyatom false;<br>  set slabbymolecule false;<br>  set smallmoleculemaxatoms 40000;<br>  set smartaromatic true;<br>  set solventprobe false;<br>  set solventproberadius 1.2;<br>  set ssbondsbackbone false;<br>  set stereodegrees -5;<br>  set strandcountformeshribbon 7;<br>  set strandcountforstrands 5;<br>  set strutdefaultradius 0.3;<br>  set strutlengthmaximum 7.0;<br>  set strutsmultiple false;<br>  set strutspacing 6;<br>  set testflag1 false;<br>  set testflag2 false;<br>  set testflag3 false;<br>  set testflag4 false;<br>  set tracealpha true;<br>  set usearcball false;<br>  set useminimizationthread true;<br>  set usenumberlocalization true;<br>  set vectorscale 1.0;<br>  set vectorsymmetry false;<br>  set vibrationscale 1.0;<br>  set waitformoveto true;<br>  set wireframerotation false;<br>  set zdepth 0;<br>  set zoomlarge true;<br>  set zslab 50;<br><br># label defaults;<br>  select none;<br>  color label none;<br>  background label none;<br>  set labelOffset 4 4;<br>  set labelAlignment left;<br>  set labelPointer off;<br>  font label 13.0 SansSerif Plain;<br><br>}<br><br>function _setModelState() {<br><br>  select ({0:9});<br>  Spacefill 0.0;<br>  select ({0:8});<br>  color atoms opaque [x4c4c4c];<br>  select ({7});<br>  label "-0.00";<br>  select ({2 5});<br>  label "5.0";<br>  select ({0 3});<br>  label "-5.0";<br>  select ({8});<br>  label "1.00";<br>  select ({1 4});<br>  label "0.0";<br>  select ({6});<br>  label "-1.00";<br>  select ({0:8});<br>  set labelOffset 0 0;<br>  measures delete;<br>  select *; set measures nanometers;<br>  font measures 15.0 SansSerif Plain;<br><br>  draw delete;<br>  draw ID "line_661812" diameter 1 CURVE {-6.0 -6.0 -3.0} {-6.0 6.0 -3.0};<br>  draw ID "line_661812" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_887699" diameter 1 CURVE {-6.0 6.0 -3.0} {6.0 6.0 -3.0};<br>  draw ID "line_887699" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_599579" diameter 1 CURVE {6.0 6.0 -3.0} {6.0 -6.0 -3.0};<br>  draw ID "line_599579" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_898424" diameter 1 CURVE {6.0 -6.0 -3.0} {-6.0 -6.0 -3.0};<br>  draw ID "line_898424" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_25052" diameter 1 CURVE {-6.0 -6.0 -3.0} {-6.0 -6.0 3.0};<br>  draw ID "line_25052" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_494373" diameter 1 CURVE {-6.0 -6.0 3.0} {-6.0 6.0 3.0};<br>  draw ID "line_494373" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_968071" diameter 1 CURVE {-6.0 6.0 3.0} {6.0 6.0 3.0};<br>  draw ID "line_968071" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_668620" diameter 1 CURVE {6.0 6.0 3.0} {6.0 -6.0 3.0};<br>  draw ID "line_668620" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_765866" diameter 1 CURVE {6.0 -6.0 3.0} {-6.0 -6.0 3.0};<br>  draw ID "line_765866" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_494351" diameter 1 {-6.0 -6.0 3.0};<br>  draw ID "line_494351" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_785056" diameter 1 CURVE {-6.0 6.0 -3.0} {-6.0 6.0 3.0};<br>  draw ID "line_785056" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_175851" diameter 1 CURVE {6.0 -6.0 -3.0} {6.0 -6.0 3.0};<br>  draw ID "line_175851" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br>  draw ID "line_287010" diameter 1 CURVE {6.0 6.0 -3.0} {6.0 6.0 3.0};<br>  draw ID "line_287010" fill noMesh noDots notFrontOnly fullylit;<br>  color draw translucent 0.5 [x000000];<br><br>  pmesh ID "obj_333275" select ({0:9})  /*file*/"http://www.sagenb.org/home/name_of_user/31/cells/1/sage0-size500-56856869.jmol.zip|obj_333275.pmesh";<br>  pmesh ID "obj_333275" fill noMesh noDots notFrontOnly fullylit;<br>  color pmesh opaque [x6666ff];<br><br>  boundBox off;<br>  font boundBox 14.0 SansSerif Plain;<br>  boundBox off;<br><br>  frank off;<br>  font frank 16.0 SansSerif Bold;<br>  select *;<br>  set fontScaling false;<br><br>}<br><br>function _setPerspectiveState() {<br>  set perspectiveModel 11;<br>  set scaleAngstromsPerInch 0.0;<br>  set perspectiveDepth true;<br>  set visualRange 5.0;<br>  set cameraDepth 3.0;<br>  boundbox corners {-7.0 -7.0 -3.0} {7.0 6.0 5.5} # volume = 1547.0;<br>  center {0.0 0.0 0.0};<br>  moveto -1.0 {0 0 1 0} 100.0 0.0 0.0 {0.0 -0.5 1.25} 11.455262 {0.0 0.0 0.0} 0.0 0.0 0.0;<br>  save orientation "default";<br>  moveto 0.0 { -764 -346 -545 76.39} 100.0 0.0 0.0 {0.0 0.0 0.0} 10.69536 {0.0 0.0 0.0} 0.0 0.0 0.0;;<br>  slab 100;depth 0;<br>  set slabRange 0.0;<br>  set spinX 0; set spinY 30; set spinZ 0; set spinFps 30;  set navX 0; set navY 0; set navZ 0; set navFps 10;<br>}<br><br>function _setSelectionState() {<br>  select ({8});<br>  set hideNotSelected false;<br>}<br><br>function _setState() {<br>  initialize;<br>  set refreshing false;<br>  _setWindowState;<br>  _setFileState;<br>  _setVariableState;<br>  _setModelState;<br>  _setPerspectiveState;<br>  _setSelectionState;<br>  set refreshing true;<br>  set antialiasDisplay true;<br>  set antialiasTranslucent true;<br>  set antialiasImages true;<br>}<br><br>_setState;<br></div></div></div></td></tr></tbody></table></div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+<div id="cell_outer_2"><div id="cell_2">
+
+    
+    
+
+
+
+
+        
+        
+        
+            <div class="insert_new_cell" id="insert_new_cell_before2">
+            </div>
+            
+        
+            
+                
+            
+            
+                <textarea style="height: 24px;" class="cell_input" rows="1" cols="80" id="cell_input_2"></textarea>
+                <input class="eval_button_active" id="eval_button2" title="Click here or press shift-return to evaluate" value="evaluate" type="button">
+            
+            
+
+            <div id="introspect_div_2" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_2" onclick="cycle_cell_output_type(2);">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_2">
+                            <div class="cell_output_wrap" id="cell_output_2">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_nowrap_wrap" id="cell_output_nowrap_2">
+                                    
+                                </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_2">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+</div></div></div>
+    <div class="insert_new_cell" id="insert_last_cell"></div>  
+    <script type="text/javascript">
+        state_number = 0;
+        cell_id_list = [1];
+        queue_id_list = [];
+        
+        worksheet_locked = false;
+	    
+
+        $(document).ready(function () {
+            if (worksheet_name === "Untitled") {
+                rename_worksheet();
+            }
+         });
+
+        $("#insert_last_cell").bind("plainclick", function (e) {
+            insert_new_cell_after(cell_id_list[cell_id_list.length - 1]);
+        });
+    
+        
+        $("#insert_last_cell").bind("shiftclick", function (e) {
+            insert_new_text_cell_after(cell_id_list[cell_id_list.length - 1]);
+        });
+        
+    </script>
+</div>
+
+
+        </div>
+        
+    
+<div style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px none; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-family: 'MathJax_Size1',sans-serif;">?</div></body></html>
