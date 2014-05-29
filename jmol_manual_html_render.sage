@@ -28,7 +28,11 @@ Example:
     sage: P = plot3d(g,(x,-5,5),(y,-5,5))
     sage: jmol_manual_html_render(P)
 
-From www.sagenb.org, login, go to: 
+Caveat: It doesn't work if the cell is shown without word wrap.
+The cell **must** be shown **with word wrap** in order to work.
+Click at left of the cell to set the output type appropriately.
+
+From www.sagenb.org, try to login, and go to: 
 * -> Help -> Thematic Tutorials 
 * -> Tutorial Symbolics and Plotting -> Basic 3D plotting 
 * Change cell contents to look like the example.
